@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Administración",
+        "description": "Módulo de administración general del sistema",
+        "active": true
+    },
+    {
+        "name": "Inventario",
+        "description": "Módulo de gestión de inventarios",
+        "active": true
+    },
+    {
+        "name": "Operaciones",
+        "description": "Módulo de operaciones móviles",
+        "active": true
+    },
+    {
+        "name": "Verificación",
+        "description": "Módulo de verificación de inventarios",
+        "active": true
+    },
+    {
+        "name": "Reportes",
+        "description": "Módulo de reportes y consultas",
+        "active": true
+    },
+    {
+        "name": "Seguridad",
+        "description": "Módulo de gestión de usuarios y seguridad",
+        "active": true
+    }
+]

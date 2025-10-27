@@ -1,0 +1,236 @@
+[
+    // ADMINISTRADOR (RoleId: 1) - Control total sobre empresas, sucursales y usuarios
+    // Gestión de Empresas (FormId: 1)
+    {"roleId": 1, "formId": 1, "permissionId": 1, "active": true},
+    {"roleId": 1, "formId": 1, "permissionId": 2, "active": true},
+    {"roleId": 1, "formId": 1, "permissionId": 3, "active": true},
+    {"roleId": 1, "formId": 1, "permissionId": 4, "active": true},
+    {"roleId": 1, "formId": 1, "permissionId": 5, "active": true},
+    {"roleId": 1, "formId": 1, "permissionId": 32, "active": true},
+    {"roleId": 1, "formId": 1, "permissionId": 36, "active": true},
+    
+    // Gestión de Sucursales (FormId: 2)
+    {"roleId": 1, "formId": 2, "permissionId": 1, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 2, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 3, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 4, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 5, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 11, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 12, "active": true},
+    {"roleId": 1, "formId": 2, "permissionId": 32, "active": true},
+    
+    // Gestión de Usuarios (FormId: 18)
+    {"roleId": 1, "formId": 18, "permissionId": 1, "active": true},
+    {"roleId": 1, "formId": 18, "permissionId": 2, "active": true},
+    {"roleId": 1, "formId": 18, "permissionId": 3, "active": true},
+    {"roleId": 1, "formId": 18, "permissionId": 4, "active": true},
+    {"roleId": 1, "formId": 18, "permissionId": 9, "active": true},
+    {"roleId": 1, "formId": 18, "permissionId": 12, "active": true},
+    {"roleId": 1, "formId": 18, "permissionId": 13, "active": true},
+    
+    // Gestión de Roles (FormId: 19)
+    {"roleId": 1, "formId": 19, "permissionId": 1, "active": true},
+    {"roleId": 1, "formId": 19, "permissionId": 2, "active": true},
+    {"roleId": 1, "formId": 19, "permissionId": 3, "active": true},
+    {"roleId": 1, "formId": 19, "permissionId": 4, "active": true},
+    {"roleId": 1, "formId": 19, "permissionId": 9, "active": true},
+    
+    // Perfil de Usuario (FormId: 20)
+    {"roleId": 1, "formId": 20, "permissionId": 2, "active": true},
+    {"roleId": 1, "formId": 20, "permissionId": 3, "active": true},
+    {"roleId": 1, "formId": 20, "permissionId": 39, "active": true},
+    {"roleId": 1, "formId": 20, "permissionId": 40, "active": true},
+    
+    // Notificaciones (FormId: 21)
+    {"roleId": 1, "formId": 21, "permissionId": 2, "active": true},
+    {"roleId": 1, "formId": 21, "permissionId": 35, "active": true},
+    
+    // SUBADMINISTRADOR (RoleId: 2) - Gestión de zonas, usuarios y reportes de sucursal
+    // Gestión de Zonas (FormId: 3)
+    {"roleId": 2, "formId": 3, "permissionId": 1, "active": true},
+    {"roleId": 2, "formId": 3, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 3, "permissionId": 3, "active": true},
+    {"roleId": 2, "formId": 3, "permissionId": 4, "active": true},
+    {"roleId": 2, "formId": 3, "permissionId": 5, "active": true},
+    {"roleId": 2, "formId": 3, "permissionId": 10, "active": true},
+    {"roleId": 2, "formId": 3, "permissionId": 12, "active": true},
+    
+    // Gestión de Operativos (FormId: 9)
+    {"roleId": 2, "formId": 9, "permissionId": 1, "active": true},
+    {"roleId": 2, "formId": 9, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 9, "permissionId": 3, "active": true},
+    {"roleId": 2, "formId": 9, "permissionId": 4, "active": true},
+    {"roleId": 2, "formId": 9, "permissionId": 5, "active": true},
+    {"roleId": 2, "formId": 9, "permissionId": 16, "active": true},
+    
+    // Reportes de Inventario (FormId: 15)
+    {"roleId": 2, "formId": 15, "permissionId": 29, "active": true},
+    {"roleId": 2, "formId": 15, "permissionId": 30, "active": true},
+    {"roleId": 2, "formId": 15, "permissionId": 31, "active": true},
+    
+    // Consultas Generales (FormId: 16)
+    {"roleId": 2, "formId": 16, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 16, "permissionId": 29, "active": true},
+    {"roleId": 2, "formId": 16, "permissionId": 30, "active": true},
+    
+    // Historial de Inventarios (FormId: 17)
+    {"roleId": 2, "formId": 17, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 17, "permissionId": 30, "active": true},
+    {"roleId": 2, "formId": 17, "permissionId": 31, "active": true},
+    
+    // Gestión de Usuarios (FormId: 18)
+    {"roleId": 2, "formId": 18, "permissionId": 1, "active": true},
+    {"roleId": 2, "formId": 18, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 18, "permissionId": 3, "active": true},
+    {"roleId": 2, "formId": 18, "permissionId": 12, "active": true},
+    {"roleId": 2, "formId": 18, "permissionId": 13, "active": true},
+    
+    // Perfil de Usuario (FormId: 20)
+    {"roleId": 2, "formId": 20, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 20, "permissionId": 3, "active": true},
+    {"roleId": 2, "formId": 20, "permissionId": 39, "active": true},
+    {"roleId": 2, "formId": 20, "permissionId": 40, "active": true},
+    
+    // Notificaciones (FormId: 21)
+    {"roleId": 2, "formId": 21, "permissionId": 2, "active": true},
+    {"roleId": 2, "formId": 21, "permissionId": 33, "active": true},
+    {"roleId": 2, "formId": 21, "permissionId": 34, "active": true},
+    {"roleId": 2, "formId": 21, "permissionId": 35, "active": true},
+    
+    // ENCARGADO_ZONA (RoleId: 3) - Gestión completa de inventario y operaciones
+    // Gestión de Items (FormId: 4)
+    {"roleId": 3, "formId": 4, "permissionId": 1, "active": true},
+    {"roleId": 3, "formId": 4, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 4, "permissionId": 3, "active": true},
+    {"roleId": 3, "formId": 4, "permissionId": 4, "active": true},
+    {"roleId": 3, "formId": 4, "permissionId": 5, "active": true},
+    {"roleId": 3, "formId": 4, "permissionId": 19, "active": true},
+    
+    // Carga de Inventario Base (FormId: 5)
+    {"roleId": 3, "formId": 5, "permissionId": 6, "active": true},
+    {"roleId": 3, "formId": 5, "permissionId": 28, "active": true},
+    
+    // Generación de QR (FormId: 6)
+    {"roleId": 3, "formId": 6, "permissionId": 7, "active": true},
+    {"roleId": 3, "formId": 6, "permissionId": 8, "active": true},
+    
+    // Gestión de Categorías (FormId: 7)
+    {"roleId": 3, "formId": 7, "permissionId": 1, "active": true},
+    {"roleId": 3, "formId": 7, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 7, "permissionId": 3, "active": true},
+    {"roleId": 3, "formId": 7, "permissionId": 4, "active": true},
+    {"roleId": 3, "formId": 7, "permissionId": 37, "active": true},
+    
+    // Gestión de Estados (FormId: 8)
+    {"roleId": 3, "formId": 8, "permissionId": 1, "active": true},
+    {"roleId": 3, "formId": 8, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 8, "permissionId": 3, "active": true},
+    {"roleId": 3, "formId": 8, "permissionId": 4, "active": true},
+    {"roleId": 3, "formId": 8, "permissionId": 38, "active": true},
+    
+    // Gestión de Operativos (FormId: 9)
+    {"roleId": 3, "formId": 9, "permissionId": 1, "active": true},
+    {"roleId": 3, "formId": 9, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 9, "permissionId": 3, "active": true},
+    {"roleId": 3, "formId": 9, "permissionId": 4, "active": true},
+    {"roleId": 3, "formId": 9, "permissionId": 5, "active": true},
+    {"roleId": 3, "formId": 9, "permissionId": 16, "active": true},
+    
+    // Gestión de Grupos Operativos (FormId: 10)
+    {"roleId": 3, "formId": 10, "permissionId": 1, "active": true},
+    {"roleId": 3, "formId": 10, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 10, "permissionId": 3, "active": true},
+    {"roleId": 3, "formId": 10, "permissionId": 4, "active": true},
+    {"roleId": 3, "formId": 10, "permissionId": 14, "active": true},
+    {"roleId": 3, "formId": 10, "permissionId": 15, "active": true},
+    
+    // Solicitudes de Actualización (FormId: 14)
+    {"roleId": 3, "formId": 14, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 14, "permissionId": 28, "active": true},
+    
+    // Reportes de Inventario (FormId: 15)
+    {"roleId": 3, "formId": 15, "permissionId": 29, "active": true},
+    {"roleId": 3, "formId": 15, "permissionId": 30, "active": true},
+    {"roleId": 3, "formId": 15, "permissionId": 31, "active": true},
+    
+    // Consultas Generales (FormId: 16)
+    {"roleId": 3, "formId": 16, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 16, "permissionId": 29, "active": true},
+    {"roleId": 3, "formId": 16, "permissionId": 30, "active": true},
+    
+    // Historial de Inventarios (FormId: 17)
+    {"roleId": 3, "formId": 17, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 17, "permissionId": 30, "active": true},
+    {"roleId": 3, "formId": 17, "permissionId": 31, "active": true},
+    
+    // Perfil de Usuario (FormId: 20)
+    {"roleId": 3, "formId": 20, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 20, "permissionId": 3, "active": true},
+    {"roleId": 3, "formId": 20, "permissionId": 39, "active": true},
+    {"roleId": 3, "formId": 20, "permissionId": 40, "active": true},
+    
+    // Notificaciones (FormId: 21)
+    {"roleId": 3, "formId": 21, "permissionId": 2, "active": true},
+    {"roleId": 3, "formId": 21, "permissionId": 33, "active": true},
+    {"roleId": 3, "formId": 21, "permissionId": 34, "active": true},
+    {"roleId": 3, "formId": 21, "permissionId": 35, "active": true},
+    
+    // OPERATIVO (RoleId: 4) - Solo ejecución de inventario móvil
+    // Ejecución de Inventario (FormId: 11)
+    {"roleId": 4, "formId": 11, "permissionId": 17, "active": true},
+    {"roleId": 4, "formId": 11, "permissionId": 18, "active": true},
+    {"roleId": 4, "formId": 11, "permissionId": 19, "active": true},
+    {"roleId": 4, "formId": 11, "permissionId": 20, "active": true},
+    {"roleId": 4, "formId": 11, "permissionId": 21, "active": true},
+    {"roleId": 4, "formId": 11, "permissionId": 22, "active": true},
+    
+    // Escaneo QR (FormId: 12)
+    {"roleId": 4, "formId": 12, "permissionId": 18, "active": true},
+    {"roleId": 4, "formId": 12, "permissionId": 19, "active": true},
+    
+    // Perfil de Usuario (FormId: 20)
+    {"roleId": 4, "formId": 20, "permissionId": 2, "active": true},
+    {"roleId": 4, "formId": 20, "permissionId": 39, "active": true},
+    {"roleId": 4, "formId": 20, "permissionId": 40, "active": true},
+    
+    // Notificaciones (FormId: 21)
+    {"roleId": 4, "formId": 21, "permissionId": 2, "active": true},
+    {"roleId": 4, "formId": 21, "permissionId": 35, "active": true},
+    
+    // VERIFICADOR (RoleId: 5) - Verificación y aprobación de inventarios
+    // Verificación de Inventarios (FormId: 13)
+    {"roleId": 5, "formId": 13, "permissionId": 23, "active": true},
+    {"roleId": 5, "formId": 13, "permissionId": 24, "active": true},
+    {"roleId": 5, "formId": 13, "permissionId": 25, "active": true},
+    {"roleId": 5, "formId": 13, "permissionId": 26, "active": true},
+    {"roleId": 5, "formId": 13, "permissionId": 27, "active": true},
+    
+    // Solicitudes de Actualización (FormId: 14)
+    {"roleId": 5, "formId": 14, "permissionId": 2, "active": true},
+    {"roleId": 5, "formId": 14, "permissionId": 27, "active": true},
+    
+    // Reportes de Inventario (FormId: 15)
+    {"roleId": 5, "formId": 15, "permissionId": 29, "active": true},
+    {"roleId": 5, "formId": 15, "permissionId": 30, "active": true},
+    {"roleId": 5, "formId": 15, "permissionId": 31, "active": true},
+    
+    // Consultas Generales (FormId: 16)
+    {"roleId": 5, "formId": 16, "permissionId": 2, "active": true},
+    {"roleId": 5, "formId": 16, "permissionId": 29, "active": true},
+    {"roleId": 5, "formId": 16, "permissionId": 30, "active": true},
+    
+    // Historial de Inventarios (FormId: 17)
+    {"roleId": 5, "formId": 17, "permissionId": 2, "active": true},
+    {"roleId": 5, "formId": 17, "permissionId": 30, "active": true},
+    {"roleId": 5, "formId": 17, "permissionId": 31, "active": true},
+    
+    // Perfil de Usuario (FormId: 20)
+    {"roleId": 5, "formId": 20, "permissionId": 2, "active": true},
+    {"roleId": 5, "formId": 20, "permissionId": 39, "active": true},
+    {"roleId": 5, "formId": 20, "permissionId": 40, "active": true},
+    
+    // Notificaciones (FormId: 21)
+    {"roleId": 5, "formId": 21, "permissionId": 2, "active": true},
+    {"roleId": 5, "formId": 21, "permissionId": 33, "active": true},
+    {"roleId": 5, "formId": 21, "permissionId": 35, "active": true}
+]
