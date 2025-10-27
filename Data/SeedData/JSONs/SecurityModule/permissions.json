@@ -1,0 +1,202 @@
+[
+    {
+        "name": "Crear",
+        "description": "Crear nuevos registros",
+        "active": true
+    },
+    {
+        "name": "Leer",
+        "description": "Consultar y visualizar registros",
+        "active": true
+    },
+    {
+        "name": "Actualizar",
+        "description": "Modificar registros existentes",
+        "active": true
+    },
+    {
+        "name": "Eliminar",
+        "description": "Eliminar registros",
+        "active": true
+    },
+    {
+        "name": "Exportar",
+        "description": "Exportar información a archivos Excel/PDF",
+        "active": true
+    },
+    {
+        "name": "Importar",
+        "description": "Importar inventario base desde Excel",
+        "active": true
+    },
+    {
+        "name": "GenerarQR",
+        "description": "Generar códigos QR para items",
+        "active": true
+    },
+    {
+        "name": "ImprimirQR",
+        "description": "Exportar documento de códigos QR para impresión",
+        "active": true
+    },
+    {
+        "name": "AsignarRoles",
+        "description": "Asignar roles a usuarios",
+        "active": true
+    },
+    {
+        "name": "AsignarZonas",
+        "description": "Asignar zonas a encargados",
+        "active": true
+    },
+    {
+        "name": "AsignarSucursales",
+        "description": "Asignar sucursales a subadministradores",
+        "active": true
+    },
+    {
+        "name": "GenerarCredenciales",
+        "description": "Generar credenciales automáticas para usuarios",
+        "active": true
+    },
+    {
+        "name": "ResetearPassword",
+        "description": "Resetear contraseñas de usuarios",
+        "active": true
+    },
+    {
+        "name": "CrearGruposOperativos",
+        "description": "Crear y configurar grupos operativos",
+        "active": true
+    },
+    {
+        "name": "AsignarPeriodos",
+        "description": "Asignar períodos de tiempo a grupos operativos",
+        "active": true
+    },
+    {
+        "name": "GestionarOperativos",
+        "description": "Registrar y gestionar operativos en grupos",
+        "active": true
+    },
+    {
+        "name": "EjecutarInventario",
+        "description": "Acceder y ejecutar inventarios móviles",
+        "active": true
+    },
+    {
+        "name": "EscanearQR",
+        "description": "Escanear códigos QR de items",
+        "active": true
+    },
+    {
+        "name": "ModificarEstadosItem",
+        "description": "Cambiar estados de items durante inventario",
+        "active": true
+    },
+    {
+        "name": "FinalizarInventario",
+        "description": "Finalizar y confirmar inventarios",
+        "active": true
+    },
+    {
+        "name": "GenerarInvitacion",
+        "description": "Generar códigos de invitación para operativos colaborativos",
+        "active": true
+    },
+    {
+        "name": "UnirseInventario",
+        "description": "Unirse a inventarios mediante código de invitación",
+        "active": true
+    },
+    {
+        "name": "VerificarInventario",
+        "description": "Verificar inventarios completados",
+        "active": true
+    },
+    {
+        "name": "CompararInventarios",
+        "description": "Comparar inventario realizado vs inventario base",
+        "active": true
+    },
+    {
+        "name": "AprobarInventario",
+        "description": "Aprobar inventarios verificados",
+        "active": true
+    },
+    {
+        "name": "RechazarInventario",
+        "description": "Rechazar inventarios con observaciones",
+        "active": true
+    },
+    {
+        "name": "SolicitudActualizacion",
+        "description": "Crear solicitudes de actualización de inventario base",
+        "active": true
+    },
+    {
+        "name": "ProcesarSolicitudes",
+        "description": "Procesar solicitudes de actualización de inventario",
+        "active": true
+    },
+    {
+        "name": "GenerarReportes",
+        "description": "Generar reportes del sistema",
+        "active": true
+    },
+    {
+        "name": "ConsultarHistorial",
+        "description": "Consultar historial de inventarios",
+        "active": true
+    },
+    {
+        "name": "VerEstadisticas",
+        "description": "Ver estadísticas y métricas del sistema",
+        "active": true
+    },
+    {
+        "name": "ConsultarConsolidado",
+        "description": "Ver información consolidada de múltiples zonas/sucursales",
+        "active": true
+    },
+    {
+        "name": "EnviarNotificaciones",
+        "description": "Enviar notificaciones del sistema",
+        "active": true
+    },
+    {
+        "name": "EnviarRecordatorios",
+        "description": "Enviar recordatorios por correo a operativos",
+        "active": true
+    },
+    {
+        "name": "GestionarNotificaciones",
+        "description": "Gestionar y marcar notificaciones como leídas",
+        "active": true
+    },
+    {
+        "name": "ConfigurarSistema",
+        "description": "Acceder a configuraciones generales del sistema",
+        "active": true
+    },
+    {
+        "name": "GestionarCategorias",
+        "description": "Gestionar categorías de items",
+        "active": true
+    },
+    {
+        "name": "GestionarEstados",
+        "description": "Gestionar estados de items",
+        "active": true
+    },
+    {
+        "name": "ActualizarPerfil",
+        "description": "Actualizar información del perfil personal",
+        "active": true
+    },
+    {
+        "name": "CambiarPassword",
+        "description": "Cambiar contraseña personal",
+        "active": true
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "userId": 15,
+        "branchId": 1,
+        "active": true
+    },
+    {
+        "userId": 16,
+        "branchId": 2,
+        "active": true
+    }
+]

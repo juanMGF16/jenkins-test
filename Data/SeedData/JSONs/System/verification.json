@@ -1,0 +1,18 @@
+[
+    {
+        "inventaryId": 1,
+        "checkerId": 1,
+        "result": false,
+        "date": "2025-02-02T14:00:00",
+        "observations": "Se detecta switch con puerto dañado; se sugiere solicitud de actualización y reparación.",
+        "active": true
+    },
+    {
+        "inventaryId": 2,
+        "checkerId": 2,
+        "result": true,
+        "date": "2025-03-11T15:00:00",
+        "observations": "Inventario conforme.",
+        "active": true
+    }
+]
