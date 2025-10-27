@@ -1,0 +1,18 @@
+[
+    {
+        "companyId": 1,
+        "userId": 3,
+        "name": "Centro de Formación Industrial - Sede Norte",
+        "address": "Cll 100 #10-20, Bogotá",
+        "phone": "6011111111",
+        "active": true
+    },
+    {
+        "companyId": 1,
+        "userId": 4,
+        "name": "Centro de Formación Tecnológica - Sede Sur",
+        "address": "Av. 68 #50-30, Bogotá",
+        "phone": "6012222222",
+        "active": true
+    }
+]

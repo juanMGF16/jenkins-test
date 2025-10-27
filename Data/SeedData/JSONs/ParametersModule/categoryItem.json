@@ -1,0 +1,37 @@
+[
+	{
+		"name": "Cómputo",
+		"description": "Equipos y dispositivos tecnológicos utilizados para el procesamiento de información, como computadores, portátiles y monitores",
+		"active": true
+	},
+	{
+		"name": "Periféricos",
+		"description": "Elementos complementarios para el funcionamiento de equipos de cómputo, comunicación o eléctricos, como cables de poder, cables de video, cargadores, adaptadores, teclados, mouses y extensiones eléctricas.",
+		"active": true
+	},
+	{
+		"name": "Muebles",
+		"description": "Mobiliario destinado a la organización y comodidad en espacios de trabajo, como escritorios, sillas, archivadores y estanterías.",
+		"active": true
+	},
+	{
+		"name": "Laboratorio",
+		"description": "Instrumentos y herramientas especializadas empleadas en prácticas técnicas, científicas o de formación, como multímetros, osciloscopios y balanzas.",
+		"active": true
+	},
+	{
+		"name": "Papelería",
+		"description": "Materiales de consumo y apoyo para actividades administrativas y académicas, como papel, marcadores, engrapadoras y carpetas.",
+		"active": true
+	},
+	{
+		"name": "Comunicación",
+		"description": "Equipos electrónicos diseñados para la transmisión de voz, datos o red, como teléfonos, radios, routers y switches.",
+		"active": true
+	},
+	{
+		"name": "Electrodomésticos",
+		"description": "Aparatos eléctricos utilizados para apoyo en ambientes de oficina o formación, como proyectores, televisores, aires acondicionados y parlantes.",
+		"active": true
+	}
+]
