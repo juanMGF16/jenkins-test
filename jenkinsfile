@@ -47,7 +47,8 @@ pipeline {
                     // Variables para el resto del pipeline
                     env.ENVIRONMENT  = resolvedEnv
                     env.ENV_FILE     = "devops/.env.${env.ENVIRONMENT}"
-                    env.COMPOSE_FILE = "devops/${env.ENV_FILE}/docker-compose.yml"
+                    env.COMPOSE_FILE = "devops/docker-compose.yml"
+
 
 
                     echo "Rama: ${branch}"
@@ -111,7 +112,7 @@ pipeline {
                     docker ps -a --filter "name=codexy-mssql-${env.ENVIRONMENT}" -q | xargs -r docker rm -f || true
 
                     # Ejecutar docker-compose correspondiente al entorno detectado
-                    docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                    docker-compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
                 """
             }
         }
