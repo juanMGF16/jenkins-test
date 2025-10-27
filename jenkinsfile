@@ -1,7 +1,8 @@
 /// <summary>
 /// Jenkinsfile principal para despliegue automatizado del proyecto codexy-api.
-/// Detecta el entorno a partir de la rama de Git (develop → develop, qa → qa, staging → staging, main → production),
-/// compila el proyecto .NET 9 y ejecuta el docker-compose correspondiente en la carpeta devops.
+/// El pipeline detecta el entorno desde la rama (develop → dev, qa → qa, staging → staging, main → prod),
+/// compila y publica el proyecto .NET 9, construye la imagen Docker con el Dockerfile de la raíz,
+/// y levanta los servicios del entorno correspondiente con su docker-compose y archivo .env.
 /// </summary>
 
 pipeline {
@@ -19,7 +20,6 @@ pipeline {
             steps {
                 script {
                     def branch = env.BRANCH_NAME ?: 'develop'
-
                     def envMap = [
                         'develop': 'develop',
                         'qa'     : 'qa',
@@ -30,15 +30,14 @@ pipeline {
                     def resolvedEnv = envMap.get(branch, 'develop')
 
                     env.ENVIRONMENT  = resolvedEnv
-                    env.ENV_FILE     = "devops/${env.ENVIRONMENT}/.env"
-                    env.COMPOSE_FILE = "devops/${env.ENVIRONMENT}/docker-compose.yml"
-                    env.IMAGE_NAME   = "codexy-${env.ENVIRONMENT}"
-                    env.CONTAINER_DB = "codexy-mssql-${env.ENVIRONMENT}"
+                    env.ENV_PATH     = "devops/${env.ENVIRONMENT}"
+                    env.ENV_FILE     = "${env.ENV_PATH}/.env"
+                    env.COMPOSE_FILE = "${env.ENV_PATH}/docker-compose.yml"
 
-                    echo "🌱 Rama detectada: ${branch}"
-                    echo "📦 Entorno: ${env.ENVIRONMENT}"
-                    echo "🧩 Archivo Compose: ${env.COMPOSE_FILE}"
-                    echo "🧾 Archivo .env: ${env.ENV_FILE}"
+                    echo "🔎 Rama actual: ${branch}"
+                    echo "🌍 Entorno detectado: ${env.ENVIRONMENT}"
+                    echo "📄 Archivo .env: ${env.ENV_FILE}"
+                    echo "🐳 Archivo docker-compose: ${env.COMPOSE_FILE}"
                 }
             }
         }
@@ -64,7 +63,7 @@ pipeline {
                 docker { image 'mcr.microsoft.com/dotnet/sdk:9.0' }
             }
             steps {
-                echo "🏗️ Compilando la solución codexy-api (.NET 9)..."
+                echo "⚙️ Compilando la solución codexy-api..."
                 sh 'dotnet build Web/Web.csproj --configuration Release'
             }
         }
@@ -75,61 +74,52 @@ pipeline {
             }
             steps {
                 echo "📦 Publicando binarios..."
-                sh 'dotnet publish Web/Web.csproj -c Release -o /app/publish'
+                sh '''
+                    dotnet publish Web/Web.csproj -c Release -o ./publish
+                '''
             }
         }
 
         stage('Construir imagen Docker') {
             steps {
-                echo "🐳 Construyendo imagen Docker para ${env.ENVIRONMENT}..."
-                sh """
-                    docker build -t ${env.IMAGE_NAME}:latest .
-                """
-            }
-        }
-
-        stage('Desplegar entorno con docker-compose') {
-            steps {
                 script {
-                    echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
-
-                    // Validar existencia de archivos
+                    echo "🐳 Construyendo imagen Docker codexy-api:${env.ENVIRONMENT}..."
                     sh """
-                        if [ ! -f ${env.ENV_FILE} ]; then
-                            echo '❌ ERROR: No se encontró ${env.ENV_FILE}'
-                            exit 1
-                        fi
-                        if [ ! -f ${env.COMPOSE_FILE} ]; then
-                            echo '❌ ERROR: No se encontró ${env.COMPOSE_FILE}'
-                            exit 1
-                        fi
-                    """
-
-                    // Detener contenedores antiguos
-                    sh """
-                        echo "🧹 Limpiando contenedores previos (${env.CONTAINER_DB})..."
-                        docker ps -a --filter name=${env.CONTAINER_DB} -q | xargs -r docker rm -f
-                    """
-
-                    // Desplegar entorno
-                    sh """
-                        echo "🧱 Levantando servicios con docker-compose..."
-                        docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                        docker build -t codexy-api-${env.ENVIRONMENT}:latest \
+                            --build-arg ENVIRONMENT=${env.ENVIRONMENT} \
+                            -f Dockerfile .
                     """
                 }
             }
         }
 
-        stage('Verificar contenedores') {
+        stage('Desplegar entorno con Docker Compose') {
             steps {
-                sh 'docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
+                script {
+                    echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
+
+                    sh """
+                        if [ ! -f ${env.ENV_FILE} ]; then
+                            echo '❌ ERROR: No se encontró el archivo ${env.ENV_FILE}'
+                            exit 1
+                        fi
+                    """
+
+                    sh """
+                        echo "🧹 Limpiando contenedores antiguos..."
+                        docker ps -a --filter name=codexy-mssql-${env.ENVIRONMENT} -q | xargs -r docker rm -f
+
+                        echo "📦 Levantando entorno con docker-compose (${env.COMPOSE_FILE})..."
+                        docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                    """
+                }
             }
         }
     }
 
     post {
         success {
-            echo "✅ Despliegue completado correctamente en ${env.ENVIRONMENT}"
+            echo "✅ Despliegue completado correctamente para ${env.ENVIRONMENT}"
         }
         failure {
             echo "❌ Error durante el despliegue en ${env.ENVIRONMENT}"
