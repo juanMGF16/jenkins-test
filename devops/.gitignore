@@ -1,0 +1,17 @@
+# Archivos de entorno con credenciales sensibles
+.env
+.env.develop
+.env.qa
+.env.staging
+.env.prod
+
+# Backups de bases de datos
+backups/
+
+# Archivos de log
+*.log
+
+# Archivos temporales
+*.tmp
+*.swp
+*~
