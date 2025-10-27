@@ -76,7 +76,7 @@ pipeline {
                     chmod -R 777 $DOTNET_CLI_HOME
                     
                     # Restaurar dependencias del proyecto principal
-                    dotnet restore src/codexy-api/codexy-api.csproj
+                    dotnet restore Web/Web.csproj
                 '''
             }
         }
@@ -91,7 +91,7 @@ pipeline {
             }
             steps {
                 echo 'Compilando la solución codexy-api...'
-                sh 'dotnet build src/codexy-api/codexy-api.csproj --configuration Release'
+                sh 'dotnet build Web/Web.csproj --configuration Release'
             }
         }
 
