@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # ==================== STAGING ====================
+  mssql-staging:
+    container_name: codexy-mssql-staging
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "1435:1433"
+    networks:
+      - network_staging
+    volumes:
+      - mssql_data_staging:/var/opt/mssql
+      - "./backups:/backups/mssql"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - com.codexy.group=codexy
+      - com.codexy.environment=staging
+
+# ==================== VOLÚMENES ====================
+volumes:
+  mssql_data_staging:
+    driver: local
+    name: mssql_data_staging
+
+# ==================== REDES ====================
+networks:
+  network_staging:
+    driver: bridge
+    name: network_staging
