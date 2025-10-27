@@ -1,0 +1,13 @@
+[
+    {
+        "name": "SENA",
+        "businessName": "Servicio Nacional de Aprendizaje",
+        "email": "contacto@sena.edu",
+        "nit": "900123456-1",
+        "phone": "6012345678",
+        "industry": 5,
+        "webSite": "https://www.sena.edu.co",
+        "userId": 2,
+        "active": true
+    }
+]

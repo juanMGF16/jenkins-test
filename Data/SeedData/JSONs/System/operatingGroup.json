@@ -1,0 +1,16 @@
+[
+    {
+        "userId": 5,
+        "name": "Grupo Inventario Febrero - Laboratorio Redes",
+        "dateStart": "2025-02-01T08:00:00",
+        "dateEnd": "2025-02-05T18:00:00",
+        "active": true
+    },
+    {
+        "userId": 8,
+        "name": "Grupo Inventario Marzo - Taller Mecánica",
+        "dateStart": "2025-03-10T08:00:00",
+        "dateEnd": "2025-03-12T18:00:00",
+        "active": true
+    }
+]
