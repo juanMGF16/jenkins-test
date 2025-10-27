@@ -1,0 +1,43 @@
+# Global
+.idea/
+*.log
+*.tmp
+*.temp
+*.cache
+*.DS_Store
+
+# -------------------------
+# Backend (ASP.NET Core)
+# -------------------------
+
+# Global packages, tools, and cache
+.nuget/
+*/packages/
+.vs/
+
+# Build artifacts
+*/bin/
+*/obj/
+*/out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+*.idea/
+
+# Dotnet tools & logs
+*.nupkg
+*.snupkg
+*.log
+
+# Auto-generated files
+Generated/
+*.generated.cs
+
+# Secrets and config
+# UserSecrets
+**/secrets.json

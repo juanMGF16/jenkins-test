@@ -1,0 +1,82 @@
+[
+    {
+        "active": true,
+        "userId": 1,
+        "roleId": 1
+    },
+    {
+        "active": true,
+        "userId": 2,
+        "roleId": 2
+    },
+    {
+        "active": true,
+        "userId": 3,
+        "roleId": 3
+    },
+    {
+        "active": true,
+        "userId": 4,
+        "roleId": 3
+    },
+    {
+        "active": true,
+        "userId": 5,
+        "roleId": 4
+    },
+    {
+        "active": true,
+        "userId": 6,
+        "roleId": 4
+    },
+    {
+        "active": true,
+        "userId": 7,
+        "roleId": 4
+    },
+    {
+        "active": true,
+        "userId": 8,
+        "roleId": 4
+    },
+    {
+        "active": true,
+        "userId": 9,
+        "roleId": 4
+    },
+    {
+        "active": true,
+        "userId": 10,
+        "roleId": 4
+    },
+    {
+        "active": true,
+        "userId": 11,
+        "roleId": 5
+    },
+    {
+        "active": true,
+        "userId": 12,
+        "roleId": 5
+    },
+    {
+        "active": true,
+        "userId": 13,
+        "roleId": 5
+    },
+    {
+        "active": true,
+        "userId": 14,
+        "roleId": 5
+    },
+    {
+        "active": true,
+        "userId": 15,
+        "roleId": 6
+    },
+    {
+        "active": true,
+        "userId": 16,
+        "roleId": 6
+    }
+]

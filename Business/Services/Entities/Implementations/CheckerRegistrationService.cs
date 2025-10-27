@@ -1,0 +1,216 @@
+﻿using Business.Services.CredentialGenerator.Interfaces;
+using Business.Services.Entities.Interfaces;
+using Business.Services.SendEmail.Interfaces;
+using Data.Repository.Interfaces.Specific.SecurityModule;
+using Data.Repository.Interfaces.Specific.System;
+using Entity.DTOs.System.Checker.NestedCreation;
+using Entity.Models.SecurityModule;
+using Entity.Models.System;
+using Microsoft.Extensions.Logging;
+using Utilities.Exceptions;
+using Utilities.Helpers;
+using Utilities.Templates;
+
+namespace Business.Services.Entities.Implementations
+{
+    /// <summary>
+    /// Implementación de <see cref="ICheckerRegistrationService"/> para el manejo de la lógica de negocio
+    /// en la creación de un Verificador asignado a una Sucursal.
+    /// Asegura la atomicidad de la operación utilizando transacciones.
+    /// </summary>
+    public class CheckerRegistrationService : ICheckerRegistrationService
+    {
+        private readonly ICheckerData _checkerData;
+        private readonly IPersonData _personData;
+        private readonly IUserData _userData;
+        private readonly IBranch _branchData;
+        private readonly ICompany _companyData;
+        private readonly IUserRoleData _userRoleData;
+        private readonly ICredentialGeneratorService _credentialGenerator;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<CheckerRegistrationService> _logger;
+
+        public CheckerRegistrationService(
+            ICheckerData checkerData,
+            IPersonData personData,
+            IUserData userData,
+            IBranch branchData,
+            ICompany companyData,
+            IUserRoleData userRoleData,
+            ICredentialGeneratorService credentialGenerator,
+            IEmailService emailService,
+            ILogger<CheckerRegistrationService> logger)
+        {
+            _checkerData = checkerData;
+            _personData = personData;
+            _userData = userData;
+            _branchData = branchData;
+            _companyData = companyData;
+            _userRoleData = userRoleData;
+            _credentialGenerator = credentialGenerator;
+            _emailService = emailService;
+            _logger = logger;
+        }
+
+        /// <summary>
+        /// Proceso transaccional que: 1. Valida la unicidad de datos del Checker. 2. Verifica la existencia de la Sucursal.
+        /// 3. Crea Persona, Usuario y Rol. 4. Genera credenciales. 5. Crea el Verificador asignando el Usuario.
+        /// 6. Envía correo de bienvenida con credenciales.
+        /// </summary>
+        /// <param name="request">DTO con la información del nuevo verificador asignado a una Sucursal.</param>
+        /// <returns>Los detalles de las entidades creadas.</returns>
+        public async Task<CheckerCreateResponseDTO> CreateCheckerByBranchAsync(CheckerCreateRequestDTO request)
+        {
+            // Validaciones iniciales
+            await ValidateRequestAsync(request);
+
+            using var transaction = await _checkerData.BeginTransactionAsync();
+
+            try
+            {
+                // 1. Verificar que la sucursal existe
+                var branch = await _branchData.GetByIdAsync(request.BranchId);
+                if (branch == null)
+                    throw new ValidationException("BranchId", "La Sucursal especificada no existe");
+
+                // 2. Crear Persona
+                var person = new Person
+                {
+                    Name = request.PersonName.Trim(),
+                    LastName = request.PersonLastName.Trim(),
+                    Email = request.PersonEmail.ToLower().Trim(),
+                    DocumentType = request.PersonDocumentType.Trim(),
+                    DocumentNumber = request.PersonDocumentNumber.Trim(),
+                    Phone = request.PersonPhone.Trim(),
+                    Active = true
+                };
+
+                var createdPerson = await _personData.CreateAsync(person);
+
+                // 3. Generar credenciales automáticas
+                var (username, password) = _credentialGenerator.GenerateCredentials(
+                    request.PersonName,
+                    request.PersonLastName,
+                    request.PersonEmail
+                );
+
+                // 4. Crear Usuario
+                var user = new User
+                {
+                    Username = username,
+                    Password = PasswordHelper.Hash(password),
+                    PersonId = createdPerson.Id,
+                    Active = true
+                };
+
+                var createdUser = await _userData.CreateAsync(user);
+
+                // 5. Crear UserRole 
+                var userRole = new UserRole
+                {
+                    UserId = createdUser.Id,
+                    RoleId = 6,
+                    Active = true
+                };
+
+                var createdUserRole = await _userRoleData.CreateAsync(userRole);
+
+                // 6. Crear Checker
+                var checker = new Checker
+                {
+                    BranchId = request.BranchId,
+                    UserId = createdUser.Id,
+                    Active = true
+                };
+
+                var createdChecker = await _checkerData.CreateAsync(checker);
+
+                // 7. Enviar email con credenciales
+
+                var company = await _companyData.GetByIdAsync(request.BranchId);
+
+                var emailSent = await SendWelcomeEmailAsync(
+                    request.PersonEmail,
+                    request.PersonName,
+                    username,
+                    password,
+                    branch.Name,
+                    company!.Name
+                );
+
+                // 8. Log de la operación
+                _logger.LogInformation("Checker created successfully: {CheckerName} with admin {UserName}",
+                    request.PersonName, username);
+
+                await transaction.CommitAsync();
+
+                return new CheckerCreateResponseDTO
+                {
+                    BranchId = request.BranchId,
+                    PersonId = createdPerson.Id,
+                    PersonFullName = $"{createdPerson.Name} {createdPerson.LastName}",
+                    UserId = createdUser.Id,
+                    Username = username,
+                    GeneratedPassword = "🤡",
+                    EmailSent = emailSent
+                };
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "Error creating Checker by Branch");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Realiza validaciones de unicidad de datos de la persona (email, documento, teléfono) antes de iniciar la transacción.
+        /// Lanza una <see cref="ValidationException"/> si se encuentra alguna duplicidad.
+        /// </summary>
+        /// <param name="request">El DTO de solicitud de creación.</param>
+        /// <returns>Una tarea que representa la operación asíncrona de validación.</returns>
+        private async Task ValidateRequestAsync(CheckerCreateRequestDTO request)
+        {
+            // Validar email único
+            var emailExists = await _personData.EmailExistsAsync(request.PersonEmail);
+            if (emailExists)
+                throw new ValidationException("PersonEmail", "El email ya está registrado en el sistema");
+
+            // Validar documento único
+            var docExists = await _personData.DocumentExistsAsync(request.PersonDocumentType, request.PersonDocumentNumber);
+            if (docExists)
+                throw new ValidationException("PersonDocumentNumber", "El número de documento ya está registrado");
+
+            // Validar teléfono único
+            var phoneExists = await _personData.PhoneExistsAsync(request.PersonPhone);
+            if (phoneExists)
+                throw new ValidationException("PersonPhone", "El teléfono ya está registrado");
+        }
+
+        /// <summary>
+        /// Envía un correo electrónico de bienvenida al nuevo administrador de la sucursal con sus credenciales generadas.
+        /// </summary>
+        /// <param name="email">El email del destinatario.</param>
+        /// <param name="name">El nombre del destinatario.</param>
+        /// <param name="username">El nombre de usuario generado.</param>
+        /// <param name="password">La contraseña generada.</param>
+        /// <param name="branchName">El nombre de la sucursal.</param>
+        /// <param name="companyName">El nombre de la compañía.</param>
+        /// <returns>Una tarea que retorna <c>true</c> si el correo fue enviado exitosamente; de lo contrario, <c>false</c>.</returns>
+        private async Task<bool> SendWelcomeEmailAsync(string email, string name, string username, string password, string branchName, string companyName)
+        {
+            try
+            {
+                var subject = $"🎉 Bienvenido a {branchName} - Tus Credenciales";
+                var body = EmailTemplates.GetUserWelcomeTemplate(name, username, password, "Sucursal", "Sucursales", branchName, "Verificador de Sucursal", companyName);
+
+                return await _emailService.SendEmailAsync(email, subject, body, true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending welcome email to {Email}", email);
+                return false;
+            }
+        }
+    }
+}
