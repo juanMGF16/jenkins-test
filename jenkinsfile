@@ -1,6 +1,6 @@
 /// <summary>
 /// Jenkinsfile principal para despliegue automatizado del proyecto codexy-api.
-/// Este pipeline detecta el entorno desde el archivo .env raíz,
+/// Este pipeline deriva el entorno desde la rama de Git (develop→dev, qa→qa, staging→staging, main→prod),
 /// compila el proyecto .NET 9 y ejecuta el docker-compose correspondiente en la carpeta devops.
 /// Antes del despliegue, elimina cualquier contenedor previo con el mismo nombre para evitar conflictos.
 /// </summary>
@@ -25,27 +25,31 @@ pipeline {
     stages {
 
         /// <summary>
-        /// Etapa 1: Detección del entorno.
-        /// Lee el archivo .env en la raíz del proyecto para obtener la variable ENVIRONMENT (por ejemplo, dev, qa, staging, prod).
-        /// Luego define las rutas del archivo docker-compose y del archivo .env correspondiente dentro de devops/.
+        /// Etapa 1: Detección del entorno desde la rama (sin .env raíz).
+        /// Define las rutas de docker-compose y del archivo .env correspondiente dentro de devops/.
         /// </summary>
-        stage('Leer entorno desde .env raíz') {
+        stage('Detectar entorno desde rama') {
             steps {
                 script {
-                    // Extraer valor de ENVIRONMENT del archivo .env (por ejemplo ENVIRONMENT=qa)
-                    def envValue = sh(script: "grep '^ENVIRONMENT=' .env | cut -d '=' -f2", returnStdout: true).trim()
+                    // Rama actual (ej. develop, qa, staging, main)
+                    def branch = env.BRANCH_NAME ?: 'develop'
 
-                    // Validar que exista la variable
-                    if (envValue == '') {
-                        error "No se encontró ENVIRONMENT en el archivo .env raíz"
-                    }
+                    // Mapeo rama -> entorno
+                    def envMap = [
+                        'develop': 'dev',
+                        'qa'     : 'qa',
+                        'staging': 'staging',
+                        'main'   : 'prod'
+                    ]
 
-                    // Asignar variables dinámicas para las rutas de configuración
-                    env.ENVIRONMENT = envValue
+                    def resolvedEnv = envMap.get(branch, 'dev')
+
+                    // Variables para el resto del pipeline
+                    env.ENVIRONMENT  = resolvedEnv
                     env.COMPOSE_FILE = "devops/docker-compose.yml"
-                    env.ENV_FILE = "devops/.env.${env.ENVIRONMENT}"
+                    env.ENV_FILE     = "devops/.env.${env.ENVIRONMENT}"
 
-                    // Mostrar información en consola Jenkins
+                    echo "Rama: ${branch}"
                     echo "Entorno detectado: ${env.ENVIRONMENT}"
                     echo "Archivo compose: ${env.COMPOSE_FILE}"
                     echo "Archivo de entorno: ${env.ENV_FILE}"
