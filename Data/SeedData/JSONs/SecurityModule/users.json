@@ -1,0 +1,105 @@
+[
+    {
+        "username": "securitymodule",
+        "password": "securitymodule123",
+        "active": true,
+        "personId": 1
+    },
+
+
+    {
+        "username": "admin",
+        "password": "admin123",
+        "personId": 2,
+        "active": true
+    },
+    {
+        "username": "subadmin_centro1",
+        "password": "sub123",
+        "personId": 3,
+        "active": true
+    },
+
+
+    {
+        "username": "subadmin_centro2",
+        "password": "sub123",
+        "personId": 4,
+        "active": true
+    },
+    {
+        "username": "enc_zone_1",
+        "password": "enc123",
+        "personId": 5,
+        "active": true
+    },
+    {
+        "username": "enc_zone_2",
+        "password": "enc123",
+        "personId": 6,
+        "active": true
+    },
+    {
+        "username": "enc_zone_3",
+        "password": "enc123",
+        "personId": 7,
+        "active": true
+    },
+    {
+        "username": "enc_zone_4",
+        "password": "enc123",
+        "personId": 8,
+        "active": true
+    },
+    {
+        "username": "enc_zone_5",
+        "password": "enc123",
+        "personId": 9,
+        "active": true
+    },
+    {
+        "username": "enc_zone_6",
+        "password": "enc123",
+        "personId": 10,
+        "active": true
+    },
+
+
+    {
+        "username": "oper_1",
+        "password": "oper123",
+        "personId": 11,
+        "active": true
+    },
+    {
+        "username": "oper_2",
+        "password": "oper123",
+        "personId": 12,
+        "active": true
+    },
+    {
+        "username": "oper_3",
+        "password": "oper123",
+        "personId": 13,
+        "active": true
+    },
+    {
+        "username": "oper_4",
+        "password": "oper123",
+        "personId": 14,
+        "active": true
+    },
+    
+    {
+        "username": "verifier_1",
+        "password": "verif123",
+        "personId": 15,
+        "active": true
+    },
+    {
+        "username": "verifier_2",
+        "password": "verif123",
+        "personId": 16,
+        "active": true
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "userId": 11,
+        "operationalGroupId": 1,
+        "createdByUserId": 5,
+        "active": true
+    },
+    {
+        "userId": 12,
+        "operationalGroupId": 1,
+        "createdByUserId": 5,
+        "active": true
+    },
+    {
+        "userId": 13,
+        "operationalGroupId": 2,
+        "createdByUserId": 8,
+        "active": true
+    },
+    {
+        "userId": 14,
+        "operationalGroupId": 2,
+        "createdByUserId": 8,
+        "active": true
+    }
+]

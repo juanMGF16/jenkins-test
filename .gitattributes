@@ -1,0 +1,43 @@
+# Ensure consistent line endings across OS
+
+* text=auto
+
+# C# and common text files
+
+*.cs text diff=csharp
+*.csproj text
+*.sln text
+*.json text
+*.xml text
+
+# Angular and frontend files
+
+*.ts text
+*.html text
+*.css text
+*.scss text
+*.sass text
+*.less text
+*.js text
+*.jsx text
+*.tsx text
+
+# Prevent line ending warnings
+
+*.sh text eol=lf
+*.ps1 text eol=crlf
+
+# Binary files
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.ico binary
+*.dll binary
+*.exe binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
