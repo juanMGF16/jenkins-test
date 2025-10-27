@@ -1,0 +1,132 @@
+[
+    {
+        "zoneId": 1,
+        "categoryItemId": 5,
+        "stateItemId": 1,
+        "name": "Router Cisco",
+        "description": "Router Cisco RV260, gestionable",
+        "code": "LABRED-001",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+    {
+        "zoneId": 1,
+        "categoryItemId": 5,
+        "stateItemId": 1,
+        "name": "Switch HP",
+        "description": "Switch HP 24 puertos",
+        "code": "LABRED-002",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+
+
+    {
+        "zoneId": 2,
+        "categoryItemId": 1,
+        "stateItemId": 1,
+        "name": "Portátil Dell",
+        "description": "Dell Latitude 5400, i5, 8GB",
+        "code": "AULINF-001",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+    {
+        "zoneId": 2,
+        "categoryItemId": 1,
+        "stateItemId": 1,
+        "name": "Monitor Samsung",
+        "description": "Monitor Samsung 24''",
+        "code": "AULINF-002",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+
+
+    {
+        "zoneId": 3,
+        "categoryItemId": 2,
+        "stateItemId": 1,
+        "name": "Escritorio",
+        "description": "Escritorio metálico 120x60cm",
+        "code": "BODEGA-001",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+    {
+        "zoneId": 3,
+        "categoryItemId": 2,
+        "stateItemId": 1,
+        "name": "Silla ergonómica",
+        "description": "Silla ergonómica, negra",
+        "code": "BODEGA-002",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+
+
+    {
+        "zoneId": 4,
+        "categoryItemId": 3,
+        "stateItemId": 1,
+        "name": "Multímetro",
+        "description": "UNI-T UT33C+, digital",
+        "code": "TALLER-001",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+    {
+        "zoneId": 4,
+        "categoryItemId": 3,
+        "stateItemId": 1,
+        "name": "Osciloscopio",
+        "description": "Owon SDS1102, 100MHz",
+        "code": "TALLER-002",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+
+
+    {
+        "zoneId": 5,
+        "categoryItemId": 6,
+        "stateItemId": 1,
+        "name": "Proyector Epson",
+        "description": "Epson XGA, 3500 lúmenes",
+        "code": "SALAEQ-001",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+    {
+        "zoneId": 5,
+        "categoryItemId": 6,
+        "stateItemId": 1,
+        "name": "Televisor LG",
+        "description": "TV LG 43''",
+        "code": "SALAEQ-002",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+
+    
+    {
+        "zoneId": 6,
+        "categoryItemId": 7,
+        "stateItemId": 1,
+        "name": "Cable HDMI",
+        "description": "Cable HDMI 2.0, 2m",
+        "code": "LABELEC-001",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    },
+    {
+        "zoneId": 6,
+        "categoryItemId": 7,
+        "stateItemId": 1,
+        "name": "Cable de poder",
+        "description": "Cable IEC C13, 1.5m",
+        "code": "LABELEC-002",
+        "qrPath": "https://i.ibb.co/0Vjfd4tP/Item-QR.png",
+        "active": true
+    }
+]

@@ -1,0 +1,154 @@
+[
+    {
+        "name": "developerSM",
+        "lastName": "developerSM",
+        "email": "noaplicaSM@gmail.com",
+        "documentType": "CC",
+        "documentNumber": "3100000000",
+        "phone": "3100000000",
+        "active": true
+    },
+
+
+    {
+        "name": "Carlos",
+        "lastName": "Pérez",
+        "email": "carlos.admin@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "10101010",
+        "phone": "3001000101",
+        "active": true
+    },
+    {
+        "name": "Laura",
+        "lastName": "Gómez",
+        "email": "laura.sub1@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "20202020",
+        "phone": "3002000202",
+        "active": true
+    },
+
+
+    {
+        "name": "Andrés",
+        "lastName": "Martínez",
+        "email": "andres.sub2@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "30303030",
+        "phone": "3003000303",
+        "active": true
+    },
+    {
+        "name": "Marta",
+        "lastName": "López",
+        "email": "marta.enc1@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "40404040",
+        "phone": "3004000404",
+        "active": true
+    },
+    {
+        "name": "Diego",
+        "lastName": "Ruiz",
+        "email": "diego.enc2@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "50505050",
+        "phone": "3005000505",
+        "active": true
+    },
+    {
+        "name": "Sofía",
+        "lastName": "Torres",
+        "email": "sofia.enc3@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "60606060",
+        "phone": "3006000606",
+        "active": true
+    },
+    {
+        "name": "Juan",
+        "lastName": "Díaz",
+        "email": "juan.enc4@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "70707070",
+        "phone": "3007000707",
+        "active": true
+    },
+    {
+        "name": "Paula",
+        "lastName": "Gómez",
+        "email": "paula.enc5@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "80808080",
+        "phone": "3008000808",
+        "active": true
+    },
+    {
+        "name": "Luis",
+        "lastName": "Ramírez",
+        "email": "luis.enc6@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "90909090",
+        "phone": "3009000909",
+        "active": true
+    },
+
+
+    {
+        "name": "Pedro",
+        "lastName": "Díaz",
+        "email": "pedro.oper1@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "11111111",
+        "phone": "3011001100",
+        "active": true
+    },
+    {
+        "name": "Juan",
+        "lastName": "Torres",
+        "email": "juan.oper2@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "22222222",
+        "phone": "3012001200",
+        "active": true
+    },
+    {
+        "name": "Felipe",
+        "lastName": "Tovar",
+        "email": "felipe.oper3@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "33333333",
+        "phone": "3013001300",
+        "active": true
+    },
+    {
+        "name": "Samuel",
+        "lastName": "Aviles",
+        "email": "samuel.oper4@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "44444444",
+        "phone": "3014001400",
+        "active": true
+    },
+
+
+    {
+        "name": "Ana",
+        "lastName": "Ruiz",
+        "email": "ana.verif@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "55555555",
+        "phone": "3015001500",
+        "active": true
+    },
+    {
+        "name": "Esteban",
+        "lastName": "Murcia",
+        "email": "esteban.verif@sena.edu",
+        "documentType": "CC",
+        "documentNumber": "66666666",
+        "phone": "3016001600",
+        "active": true
+    }
+]

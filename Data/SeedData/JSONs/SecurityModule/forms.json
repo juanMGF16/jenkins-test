@@ -1,0 +1,107 @@
+[
+    {
+        "name": "Gestión de Empresas",
+        "description": "Formulario para gestionar información de empresas",
+        "active": true
+    },
+    {
+        "name": "Gestión de Sucursales",
+        "description": "Formulario para gestionar sucursales",
+        "active": true
+    },
+    {
+        "name": "Gestión de Zonas",
+        "description": "Formulario para gestionar zonas de sucursales",
+        "active": true
+    },
+    {
+        "name": "Gestión de Items",
+        "description": "Formulario para gestionar items de inventario",
+        "active": true
+    },
+    {
+        "name": "Carga de Inventario Base",
+        "description": "Formulario para cargar inventario desde Excel",
+        "active": true
+    },
+    {
+        "name": "Generación de QR",
+        "description": "Formulario para generar códigos QR de items",
+        "active": true
+    },
+    {
+        "name": "Gestión de Categorías",
+        "description": "Formulario para gestionar categorías de items",
+        "active": true
+    },
+    {
+        "name": "Gestión de Estados",
+        "description": "Formulario para gestionar estados de items",
+        "active": true
+    },
+    {
+        "name": "Gestión de Operativos",
+        "description": "Formulario para gestionar operativos",
+        "active": true
+    },
+    {
+        "name": "Gestión de Grupos Operativos",
+        "description": "Formulario para crear y gestionar grupos operativos",
+        "active": true
+    },
+    {
+        "name": "Ejecución de Inventario",
+        "description": "Formulario móvil para ejecutar inventarios",
+        "active": true
+    },
+    {
+        "name": "Escaneo QR",
+        "description": "Formulario para escanear códigos QR",
+        "active": true
+    },
+    {
+        "name": "Verificación de Inventarios",
+        "description": "Formulario para verificar inventarios completados",
+        "active": true
+    },
+    {
+        "name": "Solicitudes de Actualización",
+        "description": "Formulario para gestionar solicitudes de actualización",
+        "active": true
+    },
+    {
+        "name": "Reportes de Inventario",
+        "description": "Formulario para generar reportes de inventario",
+        "active": true
+    },
+    {
+        "name": "Consultas Generales",
+        "description": "Formulario para realizar consultas del sistema",
+        "active": true
+    },
+    {
+        "name": "Historial de Inventarios",
+        "description": "Formulario para consultar historial de inventarios",
+        "active": true
+    },
+    {
+        "name": "Gestión de Usuarios",
+        "description": "Formulario para gestionar usuarios del sistema",
+        "active": true
+    },
+    {
+        "name": "Gestión de Roles",
+        "description": "Formulario para gestionar roles y permisos",
+        "active": true
+    },
+    {
+        "name": "Perfil de Usuario",
+        "description": "Formulario para gestionar perfil personal",
+        "active": true
+    },
+    {
+        "name": "Notificaciones",
+        "description": "Formulario para gestionar notificaciones",
+        "active": true
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "name": "SM_ACTION",
+        "description": "Acceso a la CRUD del Modelo de Seguridad",
+        "active": true
+    },
+    {
+        "name": "ADMINISTRADOR",
+        "description": "Administrador general del sistema. Gestiona empresas y sucursales.",
+        "active": true
+    },
+    {
+        "name": "SUBADMINISTRADOR",
+        "description": "Administrador de sucursal. Gestiona zonas y usuarios de la sucursal asignada.",
+        "active": true
+    },
+    {
+        "name": "ENCARGADO_ZONA",
+        "description": "Encargado de zona específica. Gestiona inventario base y grupos operativos.",
+        "active": true
+    },
+    {
+        "name": "OPERATIVO",
+        "description": "Aprendiz que realiza inventarios mediante escaneo QR móvil.",
+        "active": true
+    },
+    {
+        "name": "VERIFICADOR",
+        "description": "Valida y confirma inventarios realizados por operativos.",
+        "active": true
+    }
+]

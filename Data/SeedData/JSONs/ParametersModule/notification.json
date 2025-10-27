@@ -1,0 +1,11 @@
+[
+	{
+		"title": "RQS de Cambio de Inventario",
+		"type": 6,
+		"content": "{\"inventaryId\":1,\"inventaryDate\":\"2025-02-02T09:00:00\",\"operatingGroupName\":\"Grupo Inventario Febrero - Laboratorio Redes\",\"checkerName\":\"Ana Ruiz\",\"checkerObservation\":\"Se detecta switch con puerto dañado; se sugiere solicitud de actualización y reparación.\",\"differences\":[{\"itemId\":1,\"code\":\"LABRED-001\",\"name\":\"Router Cisco\",\"category\":\"Redes\",\"baseState\":\"En orden\",\"inventaryState\":\"Reparacion\"},{\"itemId\":2,\"code\":\"LABRED-002\",\"name\":\"Switch HP\",\"category\":\"Redes\",\"baseState\":\"En orden\",\"inventaryState\":\"Dañado\"}]}",
+		"date": "2025-02-02T10:00:00",
+		"read": false,
+		"userId": 5,
+		"active": true
+	}
+]
