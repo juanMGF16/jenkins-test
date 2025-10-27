@@ -1,0 +1,52 @@
+[
+    {
+        "branchId": 1,
+        "userId": 5,
+        "name": "Laboratorio de Redes",
+        "description": "Zona para equipo de redes y prácticas.",
+        "stateZone": 1,
+        "active": true
+    },
+    {
+        "branchId": 1,
+        "userId": 6,
+        "name": "Aula de Informática",
+        "description": "Aula equipada con PCs para formación.",
+        "stateZone": 1,
+        "active": true
+    },
+    {
+        "branchId": 1,
+        "userId": 7,
+        "name": "Bodega",
+        "description": "Almacenamiento general de la sede.",
+        "stateZone": 1,
+        "active": true
+    },
+
+
+    {
+        "branchId": 2,
+        "userId": 8,
+        "name": "Taller de Mecánica",
+        "description": "Zona práctica del área mecánica.",
+        "stateZone": 1,
+        "active": true
+    },
+    {
+        "branchId": 2,
+        "userId": 9,
+        "name": "Sala de Equipos",
+        "description": "Sala con equipos y audiovisual.",
+        "stateZone": 1,
+        "active": true
+    },
+    {
+        "branchId": 2,
+        "userId": 10,
+        "name": "Laboratorio de Electrónica",
+        "description": "Prácticas y equipos electrónicos.",
+        "stateZone": 1,
+        "active": true
+    }
+]
