@@ -102,20 +102,17 @@ pipeline {
         /// Ejecuta el docker-compose del entorno correspondiente para construir e iniciar el contenedor de base de datos.
         /// Antes de levantarlo, limpia cualquier contenedor previo con el mismo nombre para evitar conflictos.
         /// </summary>
-        stage('Desplegar entorno SQL Server') {
+       stage('Desplegar entorno SQL Server') {
             steps {
-                echo "Desplegando entorno SQL Server para codexy-api (${env.ENVIRONMENT})..."
-                
+                echo "Desplegando entorno SQL Server para codexy-api (${envType})..."
                 sh """
-                    # Eliminar contenedores previos del entorno si existen
-                    echo "Limpiando contenedores antiguos para ${env.ENVIRONMENT}..."
-                    docker ps -a --filter "name=codexy-mssql-${env.ENVIRONMENT}" -q | xargs -r docker rm -f || true
-
-                    # Ejecutar docker-compose correspondiente al entorno detectado
-                    docker-compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                    echo "Limpiando contenedores antiguos para ${envType}..."
+                    docker ps -a --filter name=codexy-mssql-${envType} -q | xargs -r docker rm -f
+                    docker-compose -f devops/docker-compose.yml --env-file devops/.env.${envType} up -d --build
                 """
             }
         }
+
     }
 
     /// <summary>
