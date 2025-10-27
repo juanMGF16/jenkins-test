@@ -1,0 +1,22 @@
+[
+	{
+		"name": "En orden",
+		"description": "Item verificado y en buen estado.",
+		"active": true
+	},
+	{
+		"name": "Reparación",
+		"description": "Item identificado para reparación.",
+		"active": true
+	},
+	{
+		"name": "Dañado",
+		"description": "Item físicamente dañado.",
+		"active": true
+	},
+	{
+		"name": "Perdido",
+		"description": "Item reportado como perdido.",
+		"active": true
+	}
+]
