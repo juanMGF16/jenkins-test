@@ -46,8 +46,9 @@ pipeline {
 
                     // Variables para el resto del pipeline
                     env.ENVIRONMENT  = resolvedEnv
-                    env.COMPOSE_FILE = "devops/docker-compose.yml"
                     env.ENV_FILE     = "devops/.env.${env.ENVIRONMENT}"
+                    env.COMPOSE_FILE = "devops/${env.ENV_FILE}/docker-compose.yml"
+
 
                     echo "Rama: ${branch}"
                     echo "Entorno detectado: ${env.ENVIRONMENT}"
