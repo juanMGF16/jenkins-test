@@ -49,8 +49,6 @@ pipeline {
                     env.ENV_FILE     = "devops/.env.${env.ENVIRONMENT}"
                     env.COMPOSE_FILE = "devops/docker-compose.yml"
 
-
-
                     echo "Rama: ${branch}"
                     echo "Entorno detectado: ${env.ENVIRONMENT}"
                     echo "Archivo compose: ${env.COMPOSE_FILE}"
@@ -102,14 +100,27 @@ pipeline {
         /// Ejecuta el docker-compose del entorno correspondiente para construir e iniciar el contenedor de base de datos.
         /// Antes de levantarlo, limpia cualquier contenedor previo con el mismo nombre para evitar conflictos.
         /// </summary>
-       stage('Desplegar entorno SQL Server') {
+        stage('Desplegar entorno SQL Server') {
             steps {
-                echo "Desplegando entorno SQL Server para codexy-api (${envType})..."
-                sh """
-                    echo "Limpiando contenedores antiguos para ${envType}..."
-                    docker ps -a --filter name=codexy-mssql-${envType} -q | xargs -r docker rm -f
-                    docker-compose -f devops/docker-compose.yml --env-file devops/.env.${envType} up -d --build
-                """
+                script {
+                    echo "Desplegando entorno SQL Server para codexy-api (${env.ENVIRONMENT})..."
+
+                    // Validar existencia del archivo .env
+                    sh """
+                        if [ ! -f ${env.ENV_FILE} ]; then
+                            echo '❌ ERROR: No se encontró el archivo ${env.ENV_FILE}'
+                            exit 1
+                        fi
+                    """
+
+                    sh """
+                        echo "Limpiando contenedores antiguos para ${env.ENVIRONMENT}..."
+                        docker ps -a --filter name=codexy-mssql-${env.ENVIRONMENT} -q | xargs -r docker rm -f
+
+                        echo "🧱 Levantando entorno con docker-compose..."
+                        docker-compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                    """
+                }
             }
         }
 
@@ -121,10 +132,10 @@ pipeline {
     /// </summary>
     post {
         success {
-            echo "Despliegue completado correctamente para ${env.ENVIRONMENT}"
+            echo "✅ Despliegue completado correctamente para ${env.ENVIRONMENT}"
         }
         failure {
-            echo "Error durante el despliegue en ${env.ENVIRONMENT}"
+            echo "❌ Error durante el despliegue en ${env.ENVIRONMENT}"
         }
     }
 }
