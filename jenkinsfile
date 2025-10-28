@@ -118,22 +118,15 @@ pipeline {
                 script {
                     echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
 
-                    // Verificar existencia de archivos
                     sh """
                         if [ ! -f ${env.ENV_FILE} ]; then
                             echo '❌ ERROR: No se encontró el archivo ${env.ENV_FILE}'
-                            echo '📂 Contenido disponible en la carpeta:'
-                            ls -R devops || true
                             exit 1
                         fi
-                        if [ ! -f ${env.COMPOSE_FILE} ]; then
-                            echo '❌ ERROR: No se encontró el archivo ${env.COMPOSE_FILE}'
-                            exit 1
-                        fi
-                    """
 
-                    // Limpiar y desplegar
-                    sh """
+                        echo "🔗 Creando alias .env -> ${env.ENV_FILE} (compatibilidad Compose)..."
+                        ln -sf ${env.ENV_FILE} ${env.ENV_PATH}/.env
+
                         echo "🧹 Limpiando contenedores antiguos..."
                         docker ps -a --filter name=codexy-${env.ENVIRONMENT} -q | xargs -r docker rm -f
 
@@ -143,6 +136,7 @@ pipeline {
                 }
             }
         }
+
     }
 
     // =============================
