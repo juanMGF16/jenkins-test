@@ -1,7 +1,4 @@
-version: '3.8'
-
 services:
-  # 🗄️ Base de datos SQL Server - DEVELOP
   codexy-mssql-develop:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: codexy-mssql-develop
@@ -17,10 +14,7 @@ services:
     networks:
       - network_develop
     healthcheck:
-      test: [
-        "CMD-SHELL",
-        "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$SA_PASSWORD\" -Q \"SELECT 1\" > /dev/null 2>&1 || exit 1"
-      ]
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/1433'"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -28,7 +22,6 @@ services:
     labels:
       - com.codexy.environment=develop
 
-  # 🌐 API principal - DEVELOP
   codexy-api-develop:
     container_name: codexy-api-develop
     build:
@@ -39,17 +32,8 @@ services:
       - .env.dev
     depends_on:
       codexy-mssql-develop:
-        condition: service_healthy   # ✅ Espera a que SQL esté “healthy”
+        condition: service_healthy
     ports:
       - "5100:8080"
     networks:
       - network_develop
-    labels:
-      - com.codexy.environment=develop
-
-volumes:
-  mssql_data_develop:
-
-networks:
-  network_develop:
-    driver: bridge
