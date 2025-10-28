@@ -1,36 +1,51 @@
 version: '3.8'
 
 services:
+  # 🗄️ Base de datos SQL Server - DEVELOP
   codexy-mssql-develop:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: codexy-mssql-develop
     restart: always
     environment:
-      SA_PASSWORD: Dev_P@ssw0rd_2025
+      SA_PASSWORD: "Dev_P@ssw0rd_2025"
       ACCEPT_EULA: "Y"
-      MSSQL_PID: Developer
+      MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
     volumes:
       - mssql_data_develop:/var/opt/mssql
     networks:
       - network_develop
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$SA_PASSWORD\" -Q \"SELECT 1\" > /dev/null 2>&1 || exit 1"
+      ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    labels:
+      - com.codexy.environment=develop
 
+  # 🌐 API principal - DEVELOP
   codexy-api-develop:
     container_name: codexy-api-develop
     build:
       context: ../..
-      dockerfile: Dockerfile  
+      dockerfile: Dockerfile
     restart: always
     env_file:
       - .env.dev
     depends_on:
       codexy-mssql-develop:
-          condition: service_healthy
+        condition: service_healthy   # ✅ Espera a que SQL esté “healthy”
     ports:
       - "5100:8080"
     networks:
       - network_develop
+    labels:
+      - com.codexy.environment=develop
 
 volumes:
   mssql_data_develop:
