@@ -25,8 +25,7 @@ services:
     env_file:
       - .env.qa
     depends_on:
-      codexy-mssql-qa:
-          condition: service_healthy
+      - codexy-mssql-qa
     ports:
       - "5200:8080"
     networks:
