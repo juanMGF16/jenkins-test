@@ -1,37 +1,39 @@
 version: '3.8'
 
 services:
-  # ==================== QA ====================
-  mssql-qa:
-    container_name: codexy-mssql-qa
+  codexy-mssql-qa:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codexy-mssql-qa
     restart: always
-    env_file:
-      - .env
+    environment:
+      SA_PASSWORD: Qa_P@ssw0rd_2025
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
     ports:
       - "1434:1433"
-    networks:
-      - network_qa
     volumes:
       - mssql_data_qa:/var/opt/mssql
-      - "./backups:/backups/mssql"
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    labels:
-      - com.codexy.group=codexy
-      - com.codexy.environment=qa
+    networks:
+      - network_qa
 
-# ==================== VOLÚMENES ====================
+  codexy-api-qa:
+    container_name: codexy-api-qa
+    build:
+      context: ../..
+      dockerfile: Web/Dockerfile
+    restart: always
+    env_file:
+      - .env.qa
+    depends_on:
+      - codexy-mssql-qa
+    ports:
+      - "5200:8080"
+    networks:
+      - network_qa
+
 volumes:
   mssql_data_qa:
-    driver: local
-    name: mssql_data_qa
 
-# ==================== REDES ====================
 networks:
   network_qa:
     driver: bridge
-    name: network_qa

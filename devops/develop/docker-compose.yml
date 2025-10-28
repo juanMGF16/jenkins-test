@@ -1,37 +1,39 @@
 version: '3.8'
 
 services:
-  # ==================== DESARROLLO ====================
-  mssql-develop:
-    container_name: codexy-mssql-develop
+  codexy-mssql-develop:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codexy-mssql-develop
     restart: always
-    env_file:
-      - .env
+    environment:
+      SA_PASSWORD: Dev_P@ssw0rd_2025
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
     ports:
       - "1433:1433"
-    networks:
-      - network_develop
     volumes:
       - mssql_data_develop:/var/opt/mssql
-      - "./backups:/backups/mssql"
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    labels:
-      - com.codexy.group=codexy
-      - com.codexy.environment=develop
+    networks:
+      - network_develop
 
-# ==================== VOLÚMENES ====================
+  codexy-api-develop:
+    container_name: codexy-api-develop
+    build:
+      context: ../..
+      dockerfile: Web/Dockerfile
+    restart: always
+    env_file:
+      - .env.dev
+    depends_on:
+      - codexy-mssql-develop
+    ports:
+      - "5100:8080"
+    networks:
+      - network_develop
+
 volumes:
   mssql_data_develop:
-    driver: local
-    name: mssql_data_develop
 
-# ==================== REDES ====================
 networks:
   network_develop:
     driver: bridge
-    name: network_develop
