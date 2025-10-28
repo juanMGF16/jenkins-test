@@ -1,8 +1,12 @@
 /// <summary>
 /// Jenkinsfile principal para despliegue automatizado del proyecto codexy-api.
-/// El pipeline detecta el entorno desde la rama (develop → dev, qa → qa, staging → staging, main → prod),
-/// compila y publica el proyecto .NET 9, construye la imagen Docker con el Dockerfile de la raíz,
-/// y levanta los servicios del entorno correspondiente con su docker-compose y archivo .env.
+/// Detecta el entorno según la rama:
+///   develop → .env.dev
+///   qa → .env.qa
+///   staging → .env.staging
+///   main → .env.prod
+/// Compila y publica el proyecto .NET 9, construye la imagen Docker,
+/// y levanta los servicios del entorno correspondiente con docker-compose.
 /// </summary>
 
 pipeline {
@@ -16,22 +20,25 @@ pipeline {
 
     stages {
 
+        // =============================
+        // 1️⃣ Detectar entorno dinámico
+        // =============================
         stage('Detectar entorno desde rama') {
             steps {
                 script {
                     def branch = env.BRANCH_NAME ?: 'develop'
                     def envMap = [
-                        'develop': 'develop',
+                        'develop': 'dev',
                         'qa'     : 'qa',
                         'staging': 'staging',
-                        'main'   : 'production'
+                        'main'   : 'prod'
                     ]
 
-                    def resolvedEnv = envMap.get(branch, 'develop')
+                    def resolvedEnv = envMap.get(branch, 'dev')
 
                     env.ENVIRONMENT  = resolvedEnv
-                    env.ENV_PATH     = "devops/${env.ENVIRONMENT}"
-                    env.ENV_FILE     = "${env.ENV_PATH}/.env"
+                    env.ENV_PATH     = "devops/${branch}"
+                    env.ENV_FILE     = "${env.ENV_PATH}/.env.${env.ENVIRONMENT}"
                     env.COMPOSE_FILE = "${env.ENV_PATH}/docker-compose.yml"
 
                     echo "🔎 Rama actual: ${branch}"
@@ -42,6 +49,9 @@ pipeline {
             }
         }
 
+        // =============================
+        // 2️⃣ Restaurar dependencias
+        // =============================
         stage('Restaurar dependencias') {
             agent {
                 docker {
@@ -58,6 +68,9 @@ pipeline {
             }
         }
 
+        // =============================
+        // 3️⃣ Compilar proyecto
+        // =============================
         stage('Compilar proyecto') {
             agent {
                 docker { image 'mcr.microsoft.com/dotnet/sdk:9.0' }
@@ -68,18 +81,22 @@ pipeline {
             }
         }
 
+        // =============================
+        // 4️⃣ Publicar proyecto
+        // =============================
         stage('Publicar proyecto') {
             agent {
                 docker { image 'mcr.microsoft.com/dotnet/sdk:9.0' }
             }
             steps {
                 echo "📦 Publicando binarios..."
-                sh '''
-                    dotnet publish Web/Web.csproj -c Release -o ./publish
-                '''
+                sh 'dotnet publish Web/Web.csproj -c Release -o ./publish'
             }
         }
 
+        // =============================
+        // 5️⃣ Construir imagen Docker
+        // =============================
         stage('Construir imagen Docker') {
             steps {
                 script {
@@ -93,21 +110,32 @@ pipeline {
             }
         }
 
+        // =============================
+        // 6️⃣ Desplegar entorno Compose
+        // =============================
         stage('Desplegar entorno con Docker Compose') {
             steps {
                 script {
                     echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
 
+                    // Verificar existencia de archivos
                     sh """
                         if [ ! -f ${env.ENV_FILE} ]; then
                             echo '❌ ERROR: No se encontró el archivo ${env.ENV_FILE}'
+                            echo '📂 Contenido disponible en la carpeta:'
+                            ls -R devops || true
+                            exit 1
+                        fi
+                        if [ ! -f ${env.COMPOSE_FILE} ]; then
+                            echo '❌ ERROR: No se encontró el archivo ${env.COMPOSE_FILE}'
                             exit 1
                         fi
                     """
 
+                    // Limpiar y desplegar
                     sh """
                         echo "🧹 Limpiando contenedores antiguos..."
-                        docker ps -a --filter name=codexy-mssql-${env.ENVIRONMENT} -q | xargs -r docker rm -f
+                        docker ps -a --filter name=codexy-${env.ENVIRONMENT} -q | xargs -r docker rm -f
 
                         echo "📦 Levantando entorno con docker-compose (${env.COMPOSE_FILE})..."
                         docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
@@ -117,6 +145,9 @@ pipeline {
         }
     }
 
+    // =============================
+    // ✅ Post-condiciones
+    // =============================
     post {
         success {
             echo "✅ Despliegue completado correctamente para ${env.ENVIRONMENT}"
