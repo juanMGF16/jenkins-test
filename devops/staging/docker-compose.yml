@@ -25,7 +25,8 @@ services:
     env_file:
       - .env.staging
     depends_on:
-      - codexy-mssql-staging
+        codexy-mssql-staging:
+          condition: service_healthy
     ports:
       - "5300:8080"
     networks:

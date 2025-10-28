@@ -25,7 +25,8 @@ services:
     env_file:
       - .env.dev
     depends_on:
-      - codexy-mssql-develop
+      codexy-mssql-develop:
+          condition: service_healthy
     ports:
       - "5100:8080"
     networks:
