@@ -44,7 +44,8 @@ pipeline {
                     }
 
                     // Ruta base de archivos de entorno
-                    env.ENV_DIR = "devops/develop"
+                   // ✅ CORRECTO
+                    env.ENV_DIR = "devops/${env.ENVIRONMENT}"  // Ej: devops/prod, devops/qa, etc.
                     env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
                     env.ENV_FILE = "${env.ENV_DIR}/.env.${env.ENVIRONMENT}"
 
@@ -54,6 +55,13 @@ pipeline {
                     📄 Compose file: ${env.COMPOSE_FILE}
                     📁 Env file: ${env.ENV_FILE}
                     """
+
+                    if (!fileExists(env.COMPOSE_FILE)) {
+                        error "❌ No se encontró ${env.COMPOSE_FILE}"
+                    }
+                    if (!fileExists(env.ENV_FILE)) {
+                        error "❌ No se encontró ${env.ENV_FILE}"
+                    }
 
                     if (!fileExists(env.COMPOSE_FILE)) {
                         error "❌ No se encontró ${env.COMPOSE_FILE}"
