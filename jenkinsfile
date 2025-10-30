@@ -186,15 +186,16 @@ pipeline {
             }
         }
 
-        stage('Levantar bases de datos (una sola vez)') {
+       stage('Levantar bases de datos (una sola vez)') {
             steps {
-                sh """
-                    echo "🚀 Levantando contenedor centralizado de bases de datos..."
-                    cd devops/databases
-                    docker compose up -d --build
-                    echo "⏳ Esperando 60 segundos para que las BDs se inicialicen..."
-                    sleep 60
-                """
+                dir('devops/databases') {
+                    sh '''
+                        echo "🚀 Levantando contenedor centralizado de bases de datos..."
+                        docker compose up -d --build
+                        echo "⏳ Esperando 60 segundos para que las BDs se inicialicen..."
+                        sleep 60
+                    '''
+                }
             }
         }
 
@@ -225,10 +226,12 @@ pipeline {
 
         stage('Desplegar backend') {
             steps {
-                sh """
-                    echo "🚀 Desplegando backend: ${env.ENVIRONMENT}"
-                    docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
-                """
+                dir(env.ENV_DIR) {
+                    sh """
+                        echo "🚀 Desplegando backend: ${env.ENVIRONMENT}"
+                        docker compose -f docker-compose.yml --env-file .env.${env.ENVIRONMENT == 'develop' ? 'dev' : env.ENVIRONMENT} up -d --build
+                    """
+                }
             }
         }
     }
