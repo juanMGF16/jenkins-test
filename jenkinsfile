@@ -186,6 +186,12 @@ pipeline {
             }
         }
 
+        stage('Preparar red compartida') {
+            steps {
+                sh "docker network create codexy-network || true"
+            }
+        }
+
        stage('Levantar bases de datos (una sola vez)') {
             steps {
                 dir('devops/databases') {
