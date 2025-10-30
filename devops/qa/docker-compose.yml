@@ -1,39 +1,18 @@
 version: '3.8'
 
 services:
-  codexy-mssql-qa:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: codexy-mssql-qa
-    restart: always
-    environment:
-      SA_PASSWORD: Qa_P@ssw0rd_2025
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: Developer
-    ports:
-      - "1434:1433"
-    volumes:
-      - mssql_data_qa:/var/opt/mssql
-    networks:
-      - network_qa
-
   codexy-api-qa:
     container_name: codexy-api-qa
     build:
       context: ../..
-      dockerfile: Dockerfile  
-    restart: always
+      dockerfile: Dockerfile
     env_file:
       - .env.qa
-    depends_on:
-      - codexy-mssql-qa
     ports:
       - "5200:8080"
     networks:
-      - network_qa
-
-volumes:
-  mssql_data_qa:
+      - codexy-network
 
 networks:
-  network_qa:
-    driver: bridge
+  codexy-network:
+    external: true

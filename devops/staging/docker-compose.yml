@@ -1,39 +1,18 @@
 version: '3.8'
 
 services:
-  codexy-mssql-staging:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: codexy-mssql-staging
-    restart: always
-    environment:
-      SA_PASSWORD: Staging_P@ssw0rd_2025
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: Developer
-    ports:
-      - "1435:1433"
-    volumes:
-      - mssql_data_staging:/var/opt/mssql
-    networks:
-      - network_staging
-
   codexy-api-staging:
     container_name: codexy-api-staging
     build:
       context: ../..
-      dockerfile: Dockerfile  
-    restart: always
+      dockerfile: Dockerfile
     env_file:
       - .env.staging
-    depends_on:
-      - codexy-mssql-staging
     ports:
       - "5300:8080"
     networks:
-      - network_staging
-
-volumes:
-  mssql_data_staging:
+      - codexy-network
 
 networks:
-  network_staging:
-    driver: bridge
+  codexy-network:
+    external: true
