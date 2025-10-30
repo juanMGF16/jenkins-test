@@ -1,127 +1,257 @@
-/// <summary>
-/// Jenkinsfile principal para despliegue automatizado del proyecto codexy-api.
-/// Este pipeline detecta el entorno desde el archivo .env raíz,
-/// compila el proyecto .NET 9 y ejecuta el docker-compose correspondiente en la carpeta devops.
-/// Antes del despliegue, elimina cualquier contenedor previo con el mismo nombre para evitar conflictos.
-/// </summary>
+// pipeline {
+//     agent any
 
+//     environment {
+//         DOTNET_CLI_HOME = '/var/jenkins_home/.dotnet'
+//         DOTNET_SKIP_FIRST_TIME_EXPERIENCE = '1'
+//         DOTNET_NOLOGO = '1'
+//         PROJECT_PATH = 'Web/Web.csproj'
+//     }
+
+//     stages {
+
+//         // =======================================================
+//         // 1️⃣ CHECKOUT
+//         // =======================================================
+//         stage('Checkout código fuente') {
+//             steps {
+//                 echo "📥 Clonando repositorio desde GitHub..."
+//                 checkout scm
+//                 sh 'ls -R devops || true'
+//             }
+//         }
+
+//         // =======================================================
+//         // 2️⃣ DETECTAR ENTORNO SEGÚN LA RAMA
+//         // =======================================================
+//         stage('Detectar entorno') {
+//             steps {
+//                 script {
+//                     // Mapear ramas con entornos
+//                     def branch = env.BRANCH_NAME ?: 'develop'  // Si es null, usa 'develop'
+
+//                     switch (branch) {
+//                         case 'main':
+//                             env.ENVIRONMENT = 'prod'
+//                             break
+//                         case 'staging':
+//                             env.ENVIRONMENT = 'staging'
+//                             break
+//                         case 'qa':
+//                             env.ENVIRONMENT = 'qa'
+//                             break
+//                         default:
+//                             env.ENVIRONMENT = 'develop'  // ← ¡Cambia 'dev' por 'develop'!
+//                             break
+//                     }
+
+//                     env.ENV_DIR = "devops/${env.ENVIRONMENT}"
+//                     env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
+//                     env.ENV_FILE = "${env.ENV_DIR}/.env.${env.ENVIRONMENT == 'develop' ? 'dev' : env.ENVIRONMENT}"
+
+//                     echo """
+//                     ✅ Rama detectada: ${branch}
+//                     🌎 Entorno asignado: ${env.ENVIRONMENT}
+//                     📄 Compose file: ${env.COMPOSE_FILE}
+//                     📁 Env file: ${env.ENV_FILE}
+//                     """
+
+//                     if (!fileExists(env.COMPOSE_FILE)) {
+//                         error "❌ No se encontró ${env.COMPOSE_FILE}"
+//                     }
+//                     if (!fileExists(env.ENV_FILE)) {
+//                         error "❌ No se encontró ${env.ENV_FILE}"
+//                     }
+//                 }
+//             }
+//         }
+
+//         // =======================================================
+//         // 3️⃣ COMPILAR Y PUBLICAR .NET
+//         // =======================================================
+//         stage('Compilar .NET dentro de contenedor SDK') {
+//             steps {
+//                 script {
+//                     docker.image('mcr.microsoft.com/dotnet/sdk:9.0')
+//                         .inside('-v /var/run/docker.sock:/var/run/docker.sock -u root:root') {
+//                         sh '''
+//                             echo "🔧 Restaurando dependencias .NET..."
+//                             dotnet restore Web/Web.csproj
+//                             dotnet build Web/Web.csproj --configuration Release
+//                             dotnet publish Web/Web.csproj -c Release -o ./publish
+//                         '''
+//                     }
+//                 }
+//             }
+//         }
+
+//         // =======================================================
+//         // 4️⃣ CONSTRUIR IMAGEN DOCKER
+//         // =======================================================
+//         stage('Construir imagen Docker') {
+//             steps {
+//                 dir('.') {
+//                     sh """
+//                         echo "🐳 Construyendo imagen Docker para codexy-api (${env.ENVIRONMENT})"
+//                         docker build -t codexy-api-${env.ENVIRONMENT}:latest -f Dockerfile .
+//                     """
+//                 }
+//             }
+//         }
+
+//         // =======================================================
+//         // 5️⃣ DESPLEGAR CON DOCKER COMPOSE
+//         // =======================================================
+//         stage('Desplegar codexy-api') {
+//             steps {
+//                 dir('.') {
+//                     sh """
+//                         echo "🚀 Desplegando entorno: ${env.ENVIRONMENT}"
+//                         docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+//                     """
+//                 }
+//             }
+//         }
+//     }
+
+//     post {
+//         success {
+//             echo "🎉 Despliegue completado correctamente para ${env.ENVIRONMENT}"
+//         }
+//         failure {
+//             echo "💥 Error durante el despliegue en ${env.ENVIRONMENT}"
+//         }
+//         always {
+//             echo "🧹 Limpieza final del pipeline completada."
+//         }
+//     }
+// }
 pipeline {
-    /// <summary>
-    /// Define el agente que ejecutará el pipeline. 
-    /// En este caso 'any' indica que puede correr en cualquier nodo disponible de Jenkins.
-    /// </summary>
     agent any
 
-    /// <summary>
-    /// Variables de entorno globales usadas durante todo el pipeline.
-    /// Configura el comportamiento de .NET CLI y evita logs innecesarios o errores de permisos.
-    /// </summary>
     environment {
         DOTNET_CLI_HOME = '/var/jenkins_home/.dotnet'
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE = '1'
         DOTNET_NOLOGO = '1'
+        PROJECT_PATH = 'Web/Web.csproj'
     }
 
     stages {
+        stage('Checkout código fuente') {
+            steps {
+                echo "📥 Clonando repositorio desde GitHub..."
+                checkout scm
+                sh 'ls -R devops || true'
+            }
+        }
 
-        /// <summary>
-        /// Etapa 1: Detección del entorno.
-        /// Lee el archivo .env en la raíz del proyecto para obtener la variable ENVIRONMENT (por ejemplo, dev, qa, staging, prod).
-        /// Luego define las rutas del archivo docker-compose y del archivo .env correspondiente dentro de devops/.
-        /// </summary>
-        stage('Leer entorno desde .env raíz') {
+        stage('Detectar entorno') {
             steps {
                 script {
-                    // Extraer valor de ENVIRONMENT del archivo .env (por ejemplo ENVIRONMENT=qa)
-                    def envValue = sh(script: "grep '^ENVIRONMENT=' .env | cut -d '=' -f2", returnStdout: true).trim()
+                    def branch = env.BRANCH_NAME ?: 'develop'
 
-                    // Validar que exista la variable
-                    if (envValue == '') {
-                        error "No se encontró ENVIRONMENT en el archivo .env raíz"
+                    switch (branch) {
+                        case 'main':
+                            env.ENVIRONMENT = 'prod'
+                            break
+                        case 'staging':
+                            env.ENVIRONMENT = 'staging'
+                            break
+                        case 'qa':
+                            env.ENVIRONMENT = 'qa'
+                            break
+                        default:
+                            env.ENVIRONMENT = 'develop'
+                            break
                     }
 
-                    // Asignar variables dinámicas para las rutas de configuración
-                    env.ENVIRONMENT = envValue
-                    env.COMPOSE_FILE = "devops/docker-compose.yml"
-                    env.ENV_FILE = "devops/.env.${env.ENVIRONMENT}"
+                    env.ENV_DIR = "devops/${env.ENVIRONMENT}"
+                    env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
+                    env.ENV_FILE = "${env.ENV_DIR}/.env.${env.ENVIRONMENT == 'develop' ? 'dev' : env.ENVIRONMENT}"
 
-                    // Mostrar información en consola Jenkins
-                    echo "Entorno detectado: ${env.ENVIRONMENT}"
-                    echo "Archivo compose: ${env.COMPOSE_FILE}"
-                    echo "Archivo de entorno: ${env.ENV_FILE}"
+                    echo """
+                    ✅ Rama detectada: ${branch}
+                    🌎 Entorno asignado: ${env.ENVIRONMENT}
+                    📄 Compose file: ${env.COMPOSE_FILE}
+                    📁 Env file: ${env.ENV_FILE}
+                    """
+
+                    if (!fileExists(env.COMPOSE_FILE)) {
+                        error "❌ No se encontró ${env.COMPOSE_FILE}"
+                    }
+                    if (!fileExists(env.ENV_FILE)) {
+                        error "❌ No se encontró ${env.ENV_FILE}"
+                    }
                 }
             }
         }
 
-        /// <summary>
-        /// Etapa 2: Restauración de dependencias.
-        /// Se ejecuta dentro de un contenedor oficial de .NET SDK 9.0.
-        /// Restaura los paquetes NuGet necesarios para compilar la solución.
-        /// </summary>
-        stage('Restaurar dependencias') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:9.0'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+        stage('Preparar red compartida') {
+            steps {
+                sh "docker network create codexy-network || true"
+            }
+        }
+
+       stage('Levantar bases de datos (una sola vez)') {
+            steps {
+                dir('devops/databases') {
+                    sh '''
+                        echo "🚀 Levantando contenedor centralizado de bases de datos..."
+                        # Usa -f para forzar el uso SOLO de este archivo
+                        docker compose -f docker-compose.yml up -d --build
+                        echo "⏳ Esperando 60 segundos para que las BDs se inicialicen..."
+                        sleep 60
+                    '''
                 }
             }
+        }
+
+        stage('Compilar .NET') {
             steps {
-                sh '''
-                    # Crear el directorio para .NET CLI y asignar permisos
-                    mkdir -p $DOTNET_CLI_HOME
-                    chmod -R 777 $DOTNET_CLI_HOME
-                    
-                    # Restaurar dependencias del proyecto principal
-                    dotnet restore src/codexy-api/codexy-api.csproj
-                '''
+                script {
+                    docker.image('mcr.microsoft.com/dotnet/sdk:9.0')
+                        .inside('-v /var/run/docker.sock:/var/run/docker.sock -u root:root') {
+                        sh '''
+                            echo "🔧 Restaurando dependencias .NET..."
+                            dotnet restore Web/Web.csproj
+                            dotnet build Web/Web.csproj --configuration Release
+                            dotnet publish Web/Web.csproj -c Release -o ./publish
+                        '''
+                    }
+                }
             }
         }
 
-        /// <summary>
-        /// Etapa 3: Compilación del proyecto.
-        /// Usa el SDK de .NET 9.0 para compilar el proyecto codexy-api en configuración Release.
-        /// </summary>
-        stage('Compilar proyecto') {
-            agent {
-                docker { image 'mcr.microsoft.com/dotnet/sdk:9.0' }
-            }
+        stage('Construir imagen Docker') {
             steps {
-                echo 'Compilando la solución codexy-api...'
-                sh 'dotnet build src/codexy-api/codexy-api.csproj --configuration Release'
-            }
-        }
-
-        /// <summary>
-        /// Etapa 4: Despliegue del backend.
-        /// Ejecuta el docker-compose del entorno correspondiente para construir e iniciar el contenedor de base de datos.
-        /// Antes de levantarlo, limpia cualquier contenedor previo con el mismo nombre para evitar conflictos.
-        /// </summary>
-        stage('Desplegar entorno SQL Server') {
-            steps {
-                echo "Desplegando entorno SQL Server para codexy-api (${env.ENVIRONMENT})..."
-                
                 sh """
-                    # Eliminar contenedores previos del entorno si existen
-                    echo "Limpiando contenedores antiguos para ${env.ENVIRONMENT}..."
-                    docker ps -a --filter "name=codexy-mssql-${env.ENVIRONMENT}" -q | xargs -r docker rm -f || true
-
-                    # Ejecutar docker-compose correspondiente al entorno detectado
-                    docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                    echo "🐳 Construyendo imagen Docker para codexy-api (${env.ENVIRONMENT})"
+                    docker build -t codexy-api-${env.ENVIRONMENT}:latest -f Dockerfile .
                 """
+            }
+        }
+
+        stage('Desplegar backend') {
+            steps {
+                dir(env.ENV_DIR) {
+                    sh """
+                        echo "🚀 Desplegando backend: ${env.ENVIRONMENT}"
+                        docker compose -f docker-compose.yml --env-file .env.${env.ENVIRONMENT == 'develop' ? 'dev' : env.ENVIRONMENT} up -d --build
+                    """
+                }
             }
         }
     }
 
-    /// <summary>
-    /// Bloque final del pipeline. 
-    /// Define acciones a realizar según el resultado del proceso (éxito o fallo).
-    /// </summary>
     post {
         success {
-            echo "Despliegue completado correctamente para ${env.ENVIRONMENT}"
+            echo "🎉 Despliegue completado correctamente para ${env.ENVIRONMENT}"
         }
         failure {
-            echo "Error durante el despliegue en ${env.ENVIRONMENT}"
+            echo "💥 Error durante el despliegue en ${env.ENVIRONMENT}"
+        }
+        always {
+            echo "🧹 Limpieza final del pipeline completada."
         }
     }
 }
