@@ -63,9 +63,7 @@ services:
 
 networks:
   codexy-network:
-    name: codexy-network  # ← ¡Nombre fijo global!
-    driver: bridge
-
+    external: true 
 volumes:
   mssql_data_develop:
   mssql_data_qa:
