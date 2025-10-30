@@ -158,7 +158,7 @@ app.UseSwaggerUI(c =>
 // ===================================================
 // 🧪 [5] SEEDERS (solo en Development o Staging si lo deseas)
 // ===================================================
-if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "qa")
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Staging")
 {
     using var scope = app.Services.CreateScope();
     var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
