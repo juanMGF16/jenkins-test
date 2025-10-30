@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  codexy-api-qa:
+    container_name: codexy-api-qa
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    env_file:
+      - .env.qa
+    ports:
+      - "5200:8080"
+    networks:
+      - codexy-network
+
+networks:
+  codexy-network:
+    external: true

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  codexy-api-staging:
+    container_name: codexy-api-staging
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    env_file:
+      - .env.staging
+    ports:
+      - "5300:8080"
+    networks:
+      - codexy-network
+
+networks:
+  codexy-network:
+    external: true
