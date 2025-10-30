@@ -28,7 +28,9 @@ pipeline {
             steps {
                 script {
                     // Mapear ramas con entornos
-                    switch (env.BRANCH_NAME) {
+                    def branch = env.BRANCH_NAME ?: 'develop'  // Si es null, usa 'develop'
+
+                    switch (branch) {
                         case 'main':
                             env.ENVIRONMENT = 'prod'
                             break
@@ -39,29 +41,20 @@ pipeline {
                             env.ENVIRONMENT = 'qa'
                             break
                         default:
-                            env.ENVIRONMENT = 'dev'
+                            env.ENVIRONMENT = 'develop'  // ← ¡Cambia 'dev' por 'develop'!
                             break
                     }
 
-                    // Ruta base de archivos de entorno
-                   // ✅ CORRECTO
-                    env.ENV_DIR = "devops/${env.ENVIRONMENT}"  // Ej: devops/prod, devops/qa, etc.
+                    env.ENV_DIR = "devops/${env.ENVIRONMENT}"
                     env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
-                    env.ENV_FILE = "${env.ENV_DIR}/.env.${env.ENVIRONMENT}"
+                    env.ENV_FILE = "${env.ENV_DIR}/.env.${env.ENVIRONMENT == 'develop' ? 'dev' : env.ENVIRONMENT}"
 
                     echo """
-                    ✅ Rama detectada: ${env.BRANCH_NAME}
+                    ✅ Rama detectada: ${branch}
                     🌎 Entorno asignado: ${env.ENVIRONMENT}
                     📄 Compose file: ${env.COMPOSE_FILE}
                     📁 Env file: ${env.ENV_FILE}
                     """
-
-                    if (!fileExists(env.COMPOSE_FILE)) {
-                        error "❌ No se encontró ${env.COMPOSE_FILE}"
-                    }
-                    if (!fileExists(env.ENV_FILE)) {
-                        error "❌ No se encontró ${env.ENV_FILE}"
-                    }
 
                     if (!fileExists(env.COMPOSE_FILE)) {
                         error "❌ No se encontró ${env.COMPOSE_FILE}"
