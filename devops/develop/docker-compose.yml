@@ -9,8 +9,7 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env.dev
-    depends_on:
-      - codexy-mssql-develop
+
     ports:
       - "5100:8080"
     networks:
