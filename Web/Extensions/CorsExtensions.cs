@@ -1,32 +1,56 @@
-﻿namespace Web.Extensions
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+
+namespace Web.Extensions
 {
-    /// <summary>
-    /// Extensiones para configurar políticas CORS personalizadas
-    /// </summary>
     public static class CorsExtensions
     {
-        /// <summary>
-        /// Configura CORS con orígenes permitidos desde configuración
-        /// </summary>
-        /// <param name="services">Colección de servicios</param>
-        /// <param name="configuration">Configuración de la aplicación</param>
         public static IServiceCollection AddCustomCors(this IServiceCollection services, IConfiguration configuration)
         {
-            var allowedOrigins = configuration.GetValue<string>("OrigenesPermitidos")!.Split(',');
+            if (configuration == null)
+            {
+                Console.WriteLine("⚠️ IConfiguration es null en AddCustomCors");
+                return services;
+            }
+
+            var originsRaw = configuration["OrigenesPermitidos"];
+            if (string.IsNullOrWhiteSpace(originsRaw))
+            {
+                Console.WriteLine("⚠️ No se encontró 'OrigenesPermitidos' en configuración. Usando política 'AllowAll'.");
+
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAll", builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+                });
+
+                return services;
+            }
+
+            var allowedOrigins = originsRaw.Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                           .Select(o => o.Trim())
+                                           .ToArray();
+
+            Console.WriteLine($"✅ Orígenes permitidos: {string.Join(", ", allowedOrigins)}");
 
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(policy =>
+                options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
-                    policy.WithOrigins(allowedOrigins)
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowCredentials(); // ESTA LÍNEA ES FUNDAMENTAL
+                    builder.WithOrigins(allowedOrigins)
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                 });
             });
 
             return services;
         }
     }
-
 }
