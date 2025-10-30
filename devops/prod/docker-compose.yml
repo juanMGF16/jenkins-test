@@ -1,39 +1,18 @@
 version: '3.8'
 
 services:
-  codexy-mssql-prod:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: codexy-mssql-prod
-    restart: always
-    environment:
-      SA_PASSWORD: Prod_P@ssw0rd_2025
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: Developer
-    ports:
-      - "1436:1433"
-    volumes:
-      - mssql_data_prod:/var/opt/mssql
-    networks:
-      - network_prod
-
   codexy-api-prod:
     container_name: codexy-api-prod
     build:
       context: ../..
-      dockerfile: Dockerfile  
-    restart: always
+      dockerfile: Dockerfile
     env_file:
       - .env.prod
-    depends_on:
-      - codexy-mssql-prod
     ports:
       - "5400:8080"
     networks:
-      - network_prod
-
-volumes:
-  mssql_data_prod:
+      - codexy-network
 
 networks:
-  network_prod:
-    driver: bridge
+  codexy-network:
+    external: true
