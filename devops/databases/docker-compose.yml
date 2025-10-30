@@ -1,0 +1,73 @@
+# devops/databases/docker-compose.yml
+version: '3.8'
+
+services:
+  codexy-mssql-develop:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codexy-mssql-develop
+    restart: always
+    environment:
+      SA_PASSWORD: Dev_P@ssw0rd_2025
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data_develop:/var/opt/mssql
+    networks:
+      - codexy-network
+
+  codexy-mssql-qa:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codexy-mssql-qa
+    restart: always
+    environment:
+      SA_PASSWORD: Qa_P@ssw0rd_2025
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+    ports:
+      - "1434:1433"
+    volumes:
+      - mssql_data_qa:/var/opt/mssql
+    networks:
+      - codexy-network
+
+  codexy-mssql-staging:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codexy-mssql-staging
+    restart: always
+    environment:
+      SA_PASSWORD: Staging_P@ssw0rd_2025
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+    ports:
+      - "1435:1433"
+    volumes:
+      - mssql_data_staging:/var/opt/mssql
+    networks:
+      - codexy-network
+
+  codexy-mssql-prod:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: codexy-mssql-prod
+    restart: always
+    environment:
+      SA_PASSWORD: Prod_P@ssw0rd_2025
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+    ports:
+      - "1436:1433"
+    volumes:
+      - mssql_data_prod:/var/opt/mssql
+    networks:
+      - codexy-network
+
+networks:
+  codexy-network:
+    driver: bridge
+
+volumes:
+  mssql_data_develop:
+  mssql_data_qa:
+  mssql_data_staging:
+  mssql_data_prod:
