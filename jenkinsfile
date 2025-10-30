@@ -152,7 +152,7 @@ pipeline {
 
                     switch (branch) {
                         case 'main':
-                            env.ENVIRONMENT = 'prod'
+                            env.ENVIRONMENT = 'production'
                             break
                         case 'staging':
                             env.ENVIRONMENT = 'staging'
