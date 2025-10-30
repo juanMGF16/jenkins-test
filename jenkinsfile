@@ -191,7 +191,8 @@ pipeline {
                 dir('devops/databases') {
                     sh '''
                         echo "🚀 Levantando contenedor centralizado de bases de datos..."
-                        docker compose up -d --build
+                        # Usa -f para forzar el uso SOLO de este archivo
+                        docker compose -f docker-compose.yml up -d --build
                         echo "⏳ Esperando 60 segundos para que las BDs se inicialicen..."
                         sleep 60
                     '''
