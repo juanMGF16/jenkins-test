@@ -1,3 +1,26 @@
+# version: '3.8'
+
+# services:
+#   codexy-api-prod:
+#     container_name: codexy-api-prod
+#     build:
+#       context: ../..
+#       dockerfile: Dockerfile
+#     restart: always
+#     env_file:
+#       - .env.prod
+#     depends_on:
+#       - codexy-mssql-prod
+#     ports:
+#       - "5400:8080"
+#     networks:
+#       - codexy-network
+#     labels:
+#       - com.codexy.environment=prod
+
+# networks:
+#   codexy-network:
+#     external: true
 version: '3.8'
 
 services:
@@ -15,4 +38,4 @@ services:
 
 networks:
   codexy-network:
-    external: true
+    external: true  # ← Ahora sí existirá como "codexy-network"

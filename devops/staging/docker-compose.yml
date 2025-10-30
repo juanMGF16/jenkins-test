@@ -1,3 +1,27 @@
+# version: '3.8'
+
+# services:
+#   codexy-api-qa:
+#     container_name: codexy-api-qa
+#     build:
+#       context: ../..
+#       dockerfile: Dockerfile
+#     restart: always
+#     env_file:
+#       - .env.qa
+#     depends_on:
+#       - codexy-mssql-qa
+#     ports:
+#       - "5200:8080"
+#     networks:
+#       - codexy-network
+#     labels:
+#       - com.codexy.environment=qa
+
+# networks:
+#   codexy-network:
+#     external: true
+
 version: '3.8'
 
 services:
@@ -15,4 +39,4 @@ services:
 
 networks:
   codexy-network:
-    external: true
+    external: true  # ← Ahora sí existirá como "codexy-network"
